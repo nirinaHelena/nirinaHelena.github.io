@@ -76,24 +76,23 @@ async function scrollThrough(page) {
     const name = `${p}-${v}-${lang}-${theme}.png`;
     await page.screenshot({ path: path.join(SHOTS, name), fullPage: true });
     if (p === "index") {
-      // About and Experience are written: the only placeholders left are the dates and the BirdIA tag.
+      // Home, About and Experience are written: the only placeholder left there is the BirdIA tag.
       const todo = await page.evaluate(() => {
-        const allowed = (key) => /^exp\.[a-z]+\.period$/.test(key) || key === "exp.birdia.stack";
-        const out = { total: 0, unexpected: [], heather: null, cards: document.querySelectorAll("#experience .card").length };
-        document.querySelectorAll("#about [data-i18n], #experience [data-i18n]").forEach((el) => {
-          if (!/TODO:/.test(el.textContent)) return;
-          out.total++;
-          if (!allowed(el.getAttribute("data-i18n"))) out.unexpected.push(el.getAttribute("data-i18n"));
+        const count = (sel) => (document.querySelector(sel).textContent.match(/TODO/g) || []).length;
+        const out = { home: count("#home"), about: count("#about"), experience: count("#experience"), where: [], cards: document.querySelectorAll("#experience .card").length };
+        document.querySelectorAll("#home [data-i18n], #about [data-i18n], #experience [data-i18n]").forEach((el) => {
+          if (/TODO/.test(el.textContent)) out.where.push(el.getAttribute("data-i18n"));
         });
-        const rest = Array.from(document.querySelectorAll("#about, #experience")).map((e) => e.textContent).join(" ");
-        out.inText = (rest.match(/TODO:/g) || []).length;
+        out.meta = ['meta[name="description"]', 'meta[property="og:description"]'].map((q) => document.querySelector(q).getAttribute("content"));
         const a = document.querySelector('#about [data-i18n="about.p2"] a');
         out.heather = a && a.getAttribute("href");
         return out;
       });
-      check(todo.unexpected.length === 0 && todo.total === 5 && todo.inText === 5 && todo.cards === 4 && todo.heather === "projects/heather/index.html",
-        `index ${v} ${lang} ${theme}: no "TODO:" in #about and #experience except the dates and the BirdIA tag`,
-        `${todo.inText} left (4 dates + 1 tag), unexpected=[${todo.unexpected}], Heather link=${todo.heather}`);
+      check(todo.home === 0 && todo.about === 0 && todo.experience === 1 && todo.where.join() === "exp.birdia.stack" && todo.cards === 4 && todo.heather === "projects/heather/index.html",
+        `index ${v} ${lang} ${theme}: no "TODO" in #home, #about and #experience except the BirdIA tag`,
+        `home=${todo.home} about=${todo.about} experience=${todo.experience} at [${todo.where}], Heather link=${todo.heather}`);
+      check(todo.meta.every((m) => m && m.length > 50 && !/TODO/.test(m)) && todo.meta[0] === todo.meta[1],
+        `index ${v} ${lang} ${theme}: meta description and og:description are written`, `${todo.meta[0].length} chars`);
       if (v === "desktop" && lang === "fr" && theme === "light") {
         // Clip of the full-page capture, so the sticky header does not cover the section title.
         const box = await page.locator("#experience").boundingBox();
