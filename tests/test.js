@@ -352,8 +352,13 @@ async function scrollThrough(page) {
       const attrs = Array.from(document.querySelectorAll("[alt], [aria-label], meta[content]")).map((e) => [e.getAttribute("alt"), e.getAttribute("aria-label"), e.getAttribute("content")].join(" "));
       return document.title + "\n" + document.body.innerText + "\n" + attrs.join("\n");
     });
-    const seches = frText.match(/.{0,40}sèches.{0,20}/g) || [];
-    check(seches.length === 0, 'heather page (FR): no occurrence of "sèches"', `${seches.length} ${seches.join(" | ")}`);
+    // "Dry rainy seasons" (SPI-6 <= -1) are "saisons des pluies déficitaires"; other uses of "sèche(s)" are fine.
+    const seches = frText.match(/.{0,40}saisons? des pluies sèches?.{0,20}/gi) || [];
+    check(seches.length === 0, 'heather page (FR): no "saison(s) des pluies sèche(s)"', `${seches.length} ${seches.join(" | ")}`);
+    await pfr.click("#lang-toggle");
+    const enText = await pfr.evaluate(() => document.body.innerText);
+    const drySeason = enText.match(/.{0,40}\bdry seasons?\b.{0,20}/gi) || [];
+    check(drySeason.length === 0 && /dry rainy seasons/i.test(enText), 'heather page (EN): "dry rainy season(s)", never "dry season(s)"', `${drySeason.length} ${drySeason.join(" | ")} ; "dry rainy season(s)": ${(enText.match(/dry rainy seasons?/gi) || []).length}`);
     check(/saisons des pluies déficitaires/.test(frText), 'heather page (FR): uses "saisons des pluies déficitaires"', `${(frText.match(/déficitaires?/g) || []).length} occurrences`);
     await cfr.close();
 
