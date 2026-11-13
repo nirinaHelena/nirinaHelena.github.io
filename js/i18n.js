@@ -265,7 +265,7 @@ var I18N = {
     "h.fig.03.cap": "In every city, cool years dominated the 1980s–90s; warm years dominate since 2010.",
     "h.fig.06.alt": "Dangerous-heat days on the coasts",
     "h.fig.06.cap": "Dangerous-heat days have more than tripled in Mahajanga, Toliara and Toamasina since the 1980s.",
-    "h.fig.05.alt": "Seasonal drought index (SPI-6)",
+    "h.fig.05.alt": "Seasonal drought index: Standardized Precipitation Index (SPI-6)",
     "h.fig.05.cap": "Dry rainy seasons have become more frequent on the northern, western and eastern coasts.",
     "h.fig.04.alt": "Start date of the rainy season in each city since 1981",
     "h.fig.04.cap": "Since 1981, the rainy season has not started significantly later in any city.",
@@ -287,7 +287,7 @@ var I18N = {
 <tbody>
 <tr><th scope="row">Background warming</th><td>Annual mean temperature, ERA5, cross-checked with NASA POWER</td><td>All six cities warmed by +0.18 to +0.26 °C per decade (about +1 °C since 1981). Daytime maximums rise faster than night-time minimums</td></tr>
 <tr><th scope="row">1. Rain reliability</th><td>Onset of the rainy season (first 20 mm in 3 days not followed by 10 dry days within 30 days) and false starts, CHIRPS</td><td>No significant change in any city; false starts slightly decreased. In Toliara, 21 of 44 seasons never reach a reliable onset — a permanent, not a new, problem</td></tr>
-<tr><th scope="row">2. Drought</th><td>Seasonal SPI-6 (November–April rainfall, gamma distribution fitted on 1991–2020) and SPI-3 drought months, CHIRPS</td><td>Drier rainy seasons on the coasts: dry seasons 2 → 7 in Mahajanga, 1 → 6 in Toamasina (significant trend), 3 → 6 in Antsiranana between 1981–2002 and 2003–2024. No trend on the Highlands or in Toliara</td></tr>
+<tr><th scope="row">2. Drought</th><td>Seasonal Standardized Precipitation Index (SPI): SPI-6 (November–April rainfall, gamma distribution fitted on 1991–2020) and SPI-3 drought months, CHIRPS</td><td>Drier rainy seasons on the coasts: dry seasons 2 → 7 in Mahajanga, 1 → 6 in Toamasina (significant trend), 3 → 6 in Antsiranana between 1981–2002 and 2003–2024. No trend on the Highlands or in Toliara</td></tr>
 <tr><th scope="row">3. Dangerous heat</th><td>Days per year with a daily maximum heat index ≥ 39.4 °C (NOAA "danger" level), computed hourly from ERA5</td><td>More than tripled between 1981–1990 and 2016–2025: Mahajanga 19 → 64, Toliara 8 → 25, Toamasina 4 → 17 days per year (all p &lt; 0.001). No such day on the Highlands</td></tr>
 <tr><th scope="row">4. Regions</th><td>Comparison of the three risks city by city</td><td>The most exposed regions differ by risk. <strong>Mahajanga</strong> is the only city where two risks rise together (heat and drought). The Highlands warm as fast as the coasts but are protected from dangerous heat by altitude</td></tr>
 </tbody>`,
@@ -585,8 +585,8 @@ var I18N = {
     "h.fig.03.cap": "Dans chaque ville, les années fraîches dominaient les années 1980–90&nbsp;; les années chaudes dominent depuis 2010.",
     "h.fig.06.alt": "Jours de chaleur dangereuse sur les côtes",
     "h.fig.06.cap": "Les jours de chaleur dangereuse ont plus que triplé à Mahajanga, Toliara et Toamasina depuis les années 1980.",
-    "h.fig.05.alt": "Indice de sécheresse saisonnier (SPI-6)",
-    "h.fig.05.cap": "Les saisons des pluies sèches sont devenues plus fréquentes sur les côtes nord, ouest et est.",
+    "h.fig.05.alt": "Indice de sécheresse saisonnier : indice de précipitations normalisé (SPI-6)",
+    "h.fig.05.cap": "Les saisons des pluies déficitaires sont devenues plus fréquentes sur les côtes nord, ouest et est.",
     "h.fig.04.alt": "Date de début de la saison des pluies dans chaque ville depuis 1981",
     "h.fig.04.cap": "Depuis 1981, la saison des pluies n'a commencé significativement plus tard dans aucune ville.",
     "h.figures.all_title": "Tous les graphiques",
@@ -597,7 +597,7 @@ var I18N = {
 <tr><td><a href="${FIG}02_temperature_normals.png"><code>02_temperature_normals.png</code></a></td><td>Les Hautes Terres sont plus fraîches que les côtes d'environ 6 à 10&nbsp;°C toute l'année</td></tr>
 <tr><td><a href="${FIG}03_warming_stripes.png"><code>03_warming_stripes.png</code></a></td><td>Dans chaque ville, les années fraîches dominaient les années 1980–90&nbsp;; les années chaudes dominent depuis 2010</td></tr>
 <tr><td><a href="${FIG}04_rainy_season_onset.png"><code>04_rainy_season_onset.png</code></a></td><td>Depuis 1981, la saison des pluies n'a commencé significativement plus tard dans aucune ville</td></tr>
-<tr><td><a href="${FIG}05_drought_spi.png"><code>05_drought_spi.png</code></a></td><td>Les saisons des pluies sèches sont devenues plus fréquentes sur les côtes nord, ouest et est</td></tr>
+<tr><td><a href="${FIG}05_drought_spi.png"><code>05_drought_spi.png</code></a></td><td>Les saisons des pluies déficitaires sont devenues plus fréquentes sur les côtes nord, ouest et est</td></tr>
 <tr><td><a href="${FIG}06_dangerous_heat_days.png"><code>06_dangerous_heat_days.png</code></a></td><td>Les jours de chaleur dangereuse ont plus que triplé à Mahajanga, Toliara et Toamasina depuis les années 1980</td></tr>
 </tbody>`,
 
@@ -607,7 +607,7 @@ var I18N = {
 <tbody>
 <tr><th scope="row">Réchauffement de fond</th><td>Température moyenne annuelle, ERA5, recoupée avec NASA POWER</td><td>Les six villes se sont réchauffées de +0,18 à +0,26&nbsp;°C par décennie (environ +1&nbsp;°C depuis 1981). Les maximales diurnes augmentent plus vite que les minimales nocturnes</td></tr>
 <tr><th scope="row">1. Fiabilité des pluies</th><td>Début de la saison des pluies (premiers 20&nbsp;mm en 3 jours non suivis de 10 jours secs dans les 30 jours) et faux départs, CHIRPS</td><td>Aucun changement significatif dans aucune ville&nbsp;; les faux départs ont légèrement diminué. À Toliara, 21 saisons sur 44 n'atteignent jamais un début fiable — un problème permanent, et non nouveau</td></tr>
-<tr><th scope="row">2. Sécheresse</th><td>SPI-6 saisonnier (pluies de novembre à avril, loi gamma ajustée sur 1991–2020) et mois de sécheresse SPI-3, CHIRPS</td><td>Saisons des pluies plus sèches sur les côtes&nbsp;: saisons sèches 2 → 7 à Mahajanga, 1 → 6 à Toamasina (tendance significative), 3 → 6 à Antsiranana entre 1981–2002 et 2003–2024. Aucune tendance sur les Hautes Terres ni à Toliara</td></tr>
+<tr><th scope="row">2. Sécheresse</th><td>Indice de précipitations normalisé (SPI) saisonnier&nbsp;: SPI-6 (pluies de novembre à avril, loi gamma ajustée sur 1991–2020) et mois de sécheresse SPI-3, CHIRPS</td><td>Saisons des pluies plus sèches sur les côtes&nbsp;: saisons des pluies déficitaires 2 → 7 à Mahajanga, 1 → 6 à Toamasina (tendance significative), 3 → 6 à Antsiranana entre 1981–2002 et 2003–2024. Aucune tendance sur les Hautes Terres ni à Toliara</td></tr>
 <tr><th scope="row">3. Chaleur dangereuse</th><td>Jours par an où l'indice de chaleur maximal journalier est ≥ 39,4&nbsp;°C (niveau «&nbsp;danger&nbsp;» de la NOAA), calculé heure par heure à partir d'ERA5</td><td>Plus que triplé entre 1981–1990 et 2016–2025&nbsp;: Mahajanga 19 → 64, Toliara 8 → 25, Toamasina 4 → 17 jours par an (tous p&nbsp;&lt;&nbsp;0,001). Aucun jour de ce type sur les Hautes Terres</td></tr>
 <tr><th scope="row">4. Régions</th><td>Comparaison des trois risques ville par ville</td><td>Les régions les plus exposées diffèrent selon le risque. <strong>Mahajanga</strong> est la seule ville où deux risques augmentent ensemble (chaleur et sécheresse). Les Hautes Terres se réchauffent aussi vite que les côtes, mais l'altitude les protège de la chaleur dangereuse</td></tr>
 </tbody>`,
@@ -618,7 +618,7 @@ var I18N = {
 <thead><tr><th scope="col">Partie prenante</th><th scope="col">Recommandation</th><th scope="col">Fondée sur</th></tr></thead>
 <tbody>
 <tr><th scope="row">Autorités de santé publique et communes</th><td>Mettre en place des alertes chaleur-santé sur les côtes, en commençant par Mahajanga, puis Toliara et Toamasina&nbsp;: alertes fondées sur l'indice de chaleur journalier, lieux de repos ombragés et eau potable, travail en extérieur et activités scolaires déplacés hors des heures les plus chaudes</td><td>Les jours de chaleur dangereuse sont passés de 19 à 64 par an à Mahajanga, de 8 à 25 à Toliara et de 4 à 17 à Toamasina</td></tr>
-<tr><th scope="row">Organisations environnementales et de sécurité alimentaire</th><td>Donner la priorité à la préparation à la sécheresse sur les côtes ouest, est et nord (stockage de l'eau, variétés tolérantes à la sécheresse), et suivre le SPI saisonnier chaque mois d'avril pour détecter tôt une saison sèche</td><td>Les saisons des pluies sèches sont passées de 2 à 7 à Mahajanga, de 1 à 6 à Toamasina et de 3 à 6 à Antsiranana</td></tr>
+<tr><th scope="row">Organisations environnementales et de sécurité alimentaire</th><td>Donner la priorité à la préparation à la sécheresse sur les côtes ouest, est et nord (stockage de l'eau, variétés tolérantes à la sécheresse), et suivre le SPI saisonnier chaque mois d'avril pour détecter tôt une saison des pluies déficitaire</td><td>Les saisons des pluies déficitaires sont passées de 2 à 7 à Mahajanga, de 1 à 6 à Toamasina et de 3 à 6 à Antsiranana</td></tr>
 <tr><th scope="row">Agriculteurs et services de vulgarisation agricole</th><td>Conserver les calendriers de semis actuels&nbsp;: le début des pluies ne s'est pas décalé. Dans le Sud, ne semer qu'après un début fiable (environ 20&nbsp;mm en 3 jours) et privilégier des cultures à cycle court, tolérantes à la sécheresse</td><td>Aucun changement significatif des dates de début&nbsp;; à Toliara, la moitié des saisons n'atteignent jamais un début fiable et l'on compte 4,4 faux départs par saison</td></tr>
 <tr><th scope="row">Citoyens et communautés locales</th><td>Diffuser ces résultats sous une forme simple (bandes de réchauffement, chiffres par ville) pour que chacun puisse voir comment le climat de sa région a changé au cours de sa vie</td><td>Les six villes se sont réchauffées d'environ 1&nbsp;°C depuis 1981</td></tr>
 </tbody>`,

@@ -1,0 +1,12 @@
+{
+  "name": "portfolio-tests",
+  "private": true,
+  "description": "Browser checks for the portfolio (not part of the site itself).",
+  "scripts": {
+    "test": "node test.js",
+    "sync-html": "node sync-html.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.65.0"
+  }
+}
