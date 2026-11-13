@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-i18n="meta.heather.title">Heather — Madagascar Climate Analysis (1981–2025) | Nirina Helena</title>
+  <meta name="description" content="45 years of daily climate data for six cities of Madagascar: how unreliable rains, drought and dangerous heat have changed since 1981." data-i18n-content="meta.heather.description">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://nirinahelena.github.io/projects/heather/">
+  <meta property="og:title" content="Heather — Madagascar Climate Analysis (1981–2025) | Nirina Helena" data-i18n-content="meta.heather.title">
+  <meta property="og:description" content="45 years of daily climate data for six cities of Madagascar: how unreliable rains, drought and dangerous heat have changed since 1981." data-i18n-content="meta.heather.description">
+  <meta property="og:image" content="https://nirinahelena.github.io/assets/img/heather/03_warming_stripes.png">
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+  <!-- Applies the theme before the first paint (saved choice, otherwise the system setting). -->
+  <script>
+    (function () {
+      var theme = null;
+      try { theme = window.localStorage.getItem("theme"); } catch (e) {}
+      if (theme !== "light" && theme !== "dark") {
+        theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <link rel="stylesheet" href="../../css/style.css">
+  <script src="../../js/i18n.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../../">Nirina Helena</a>
+
+      <div class="controls" id="controls" hidden>
+        <button type="button" class="ctl" id="lang-toggle" aria-label="FR / EN: switch to French" data-i18n-aria-label="lang.switch">
+          <span data-lang="fr">FR</span><span aria-hidden="true">/</span><span data-lang="en">EN</span>
+        </button>
+        <button type="button" class="ctl" id="theme-toggle" aria-pressed="false" aria-label="Switch to dark theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4" fill="currentColor"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+      </div>
+
+      <nav class="site-nav" aria-label="Main navigation" data-i18n-aria-label="nav.label">
+        <ul>
+          <li><a href="../../#projects" data-i18n="h.nav.portfolio">← Portfolio</a></li>
+          <li><a href="#summary" data-i18n="h.nav.summary">Summary</a></li>
+          <li><a href="#question" data-i18n="h.nav.question">Question</a></li>
+          <li><a href="#data" data-i18n="h.nav.data">Data</a></li>
+          <li><a href="#method" data-i18n="h.nav.method">Method</a></li>
+          <li><a href="#figures" data-i18n="h.nav.figures">Figures</a></li>
+          <li><a href="#results" data-i18n="h.nav.results">Results</a></li>
+          <li><a href="#limits" data-i18n="h.nav.limits">Limitations</a></li>
+          <li><a href="#links" data-i18n="h.nav.links">Links</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ================= Summary ================= -->
+    <section id="summary" class="hero" aria-labelledby="page-title">
+      <div class="container prose">
+        <p class="kicker" data-i18n="h.kicker">Data analysis project</p>
+        <h1 id="page-title" data-i18n="h.title">Heather — Madagascar Climate Analysis (1981–2025)</h1>
+        <p class="lead" data-i18n="h.summary.intro">This project analyses 45 years of daily climate data (1981–2025) for six cities of Madagascar to measure how three climate risks that directly affect people have changed: unreliable rains, drought and dangerous heat.</p>
+        <h2 data-i18n="h.summary.title">Summary</h2>
+        <ul data-i18n="h.summary.list">
+<li><strong>All six cities have warmed by about 1 °C since 1981</strong> (+0.18 to +0.26 °C per decade), a result confirmed by two independent datasets.</li>
+<li><strong>Dangerous heat is the fastest-growing risk:</strong> days above the NOAA "danger" heat-index level have more than tripled on three coasts, reaching about two months per year in Mahajanga.</li>
+<li><strong>Rainy seasons have become drier on the northern, western and eastern coasts</strong>, but not on the Highlands or in the South.</li>
+<li><strong>The start of the rainy season has not shifted</strong>; in the South (Toliara), unreliable rains are a long-standing problem rather than a new one.</li>
+<li><strong>Mahajanga, on the west coast, is the hotspot</strong>: it is the only city where two risks are rising together.</li>
+</ul>
+        <p class="muted" data-i18n="h.summary.tools">Tools: Python (pandas, NumPy, SciPy, pymannkendall, Matplotlib, seaborn), Jupyter, three public climate datasets accessed through their APIs.</p>
+        <div class="actions">
+          <a class="btn" href="report.html" data-i18n="h.cta.report">Read the HTML report</a>
+          <a class="btn btn-ghost" href="https://github.com/nirinaHelena/heather" data-i18n="h.cta.repo">GitHub repository</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Question (README: 1. Ask) ================= -->
+    <section id="question" class="section" aria-labelledby="question-title">
+      <div class="container prose">
+        <h2 id="question-title" data-i18n="h.question.title">Question</h2>
+
+        <h3 data-i18n="h.question.task_title">Business task</h3>
+        <p data-i18n="h.question.task">Use 45 years of daily climate data (1981–2025) to measure how the climate risks that most affect people's lives in Madagascar — unreliable rains, drought and dangerous heat — have evolved, and identify the regions and communities most exposed.</p>
+        <p data-i18n="h.question.main"><strong>Main question:</strong> Is Madagascar's climate becoming harder to live with — less reliable for farmers, drier in the South and more dangerous in the heat — and where is the risk growing fastest?</p>
+
+        <h3 data-i18n="h.question.keys_title">Key questions</h3>
+        <ol data-i18n="h.question.keys">
+<li><strong>Rain reliability (food)</strong> — Does the rainy season start later, vary more from year to year, or have more "false starts" (first rains followed by a long dry spell that ruins the sowing)?</li>
+<li><strong>Drought (water)</strong> — Are droughts becoming more frequent, longer or more severe, especially in the semi-arid South (Toliara)?</li>
+<li><strong>Dangerous heat (health)</strong> — How many days per year exceed heat-index danger thresholds, and is this number increasing?</li>
+<li><strong>Inequality between regions</strong> — Which regions face the fastest-growing risks, and are the most exposed regions the same for all three risks?</li>
+</ol>
+
+        <h3 id="scope-title" data-i18n="h.question.scope_title">Scope</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="scope-title">
+          <table class="table-kv" data-i18n="h.question.scope">
+<tbody>
+<tr><th scope="row">Cities</th><td>Antananarivo, Fianarantsoa, Toamasina, Mahajanga, Antsiranana, Toliara</td></tr>
+<tr><th scope="row">Period</th><td>1 January 1981 – 31 December 2025, daily values</td></tr>
+<tr><th scope="row">Variables</th><td>Mean, maximum and minimum temperature at 2 m (°C), relative humidity (%), heat index (°C), precipitation (mm/day)</td></tr>
+<tr><th scope="row">Sources</th><td>ERA5 for temperature, humidity and heat index; CHIRPS for rainfall; NASA POWER as a cross-check</td></tr>
+</tbody>
+</table>
+        </div>
+        <p data-i18n="h.question.out"><strong>Out of scope:</strong> this project measures climate <em>hazards</em>, not their impacts. Crop yields, food insecurity and health outcomes would require additional data and are planned as a follow-up project (starting with malaria).</p>
+
+        <h3 id="stake-title" data-i18n="h.question.stake_title">Stakeholders</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="stake-title">
+          <table class="table-kv" data-i18n="h.question.stake">
+<thead><tr><th scope="col">Stakeholder</th><th scope="col">How the results could help</th></tr></thead>
+<tbody>
+<tr><th scope="row">Farmers and agricultural extension services</th><td>Adapt sowing dates and choose crop varieties suited to a less reliable rainy season</td></tr>
+<tr><th scope="row">Environmental and food-security organisations</th><td>Target drought preparedness and resilience programmes where the risk grows fastest</td></tr>
+<tr><th scope="row">Public-health authorities and municipalities</th><td>Prepare heat-wave alerts and protect the most vulnerable people in cities</td></tr>
+<tr><th scope="row">Citizens and local communities</th><td>Understand, with clear figures, how their region's climate has changed in their lifetime</td></tr>
+</tbody>
+</table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Data (README: 2. Prepare) ================= -->
+    <section id="data" class="section" aria-labelledby="data-title">
+      <div class="container prose">
+        <h2 id="data-title" data-i18n="h.data.title">Data</h2>
+
+        <h3 id="sources-data-title" data-i18n="h.data.sources_title">Data sources</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="sources-data-title">
+          <table data-i18n="h.data.sources">
+<thead><tr><th scope="col">Source</th><th scope="col">Variables used</th><th scope="col">Resolution</th><th scope="col">Retrieved with</th></tr></thead>
+<tbody>
+<tr><td><a href="https://www.ecmwf.int/en/forecasts/dataset/ecmwf-reanalysis-v5">ERA5</a> reanalysis (ECMWF), through the <a href="https://open-meteo.com/">Open-Meteo</a> archive API (<code>models=era5</code>)</td><td>Daily mean, max and min temperature; hourly temperature and humidity (for the heat index)</td><td>0.25° grid cell (about 25 km)</td><td><a href="https://github.com/nirinaHelena/heather/blob/main/src/fetch_era5.py"><code>src/fetch_era5.py</code></a>, <a href="https://github.com/nirinaHelena/heather/blob/main/src/fetch_era5_heat.py"><code>src/fetch_era5_heat.py</code></a></td></tr>
+<tr><td><a href="https://www.chc.ucsb.edu/data/chirps">CHIRPS v2</a> (Climate Hazards Center, UC Santa Barbara), through the <a href="https://climateserv.servirglobal.net/">ClimateSERV</a> API</td><td>Daily rainfall</td><td>0.05° grid cell (about 5 km)</td><td><a href="https://github.com/nirinaHelena/heather/blob/main/src/fetch_chirps.py"><code>src/fetch_chirps.py</code></a></td></tr>
+<tr><td><a href="https://power.larc.nasa.gov/">NASA POWER</a> (MERRA-2 reanalysis), Daily Point API</td><td>Temperature, humidity and rainfall, <strong>used only as a cross-check</strong></td><td>0.5° × 0.625° grid cell (about 55 × 65 km)</td><td><a href="https://github.com/nirinaHelena/heather/blob/main/src/fetch_data.py"><code>src/fetch_data.py</code></a></td></tr>
+</tbody>
+</table>
+        </div>
+        <p data-i18n="h.data.downloaded">Data were downloaded between 9 and 13 November 2026.</p>
+        <div data-i18n="h.data.why">
+<p><strong>Why three sources?</strong> NASA POWER was first used for every variable. Two checks showed its limits:</p>
+<ul>
+<li><strong>Rainfall:</strong> compared with published long-term normals, NASA POWER puts far too much rain on the Highlands and far too little on the east coast. Rainfall was replaced by CHIRPS, a reference dataset for drought monitoring in Africa that blends satellite imagery with rain-gauge records.</li>
+<li><strong>Temperature:</strong> NASA POWER showed an unusually fast warming in Fianarantsoa that diverged from nearby Antananarivo after 2014. Temperature trends were cross-checked with ERA5, which agrees with NASA POWER in four cities but not in Fianarantsoa and Toliara. ERA5 (finer grid, no such divergence) became the main temperature source.</li>
+</ul>
+<p>Each variable is therefore taken from the source that passed validation.</p>
+</div>
+
+        <h3 id="collected-title" data-i18n="h.data.collected_title">Data collected</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="collected-title">
+          <table data-i18n="h.data.cities">
+<thead><tr><th scope="col">City</th><th scope="col">Climate zone</th><th scope="col">Latitude</th><th scope="col">Longitude</th></tr></thead>
+<tbody>
+<tr><th scope="row">Antananarivo</th><td>Central Highlands</td><td>-18.91</td><td>47.52</td></tr>
+<tr><th scope="row">Fianarantsoa</th><td>Southern Highlands</td><td>-21.45</td><td>47.09</td></tr>
+<tr><th scope="row">Toamasina</th><td>East coast</td><td>-18.15</td><td>49.40</td></tr>
+<tr><th scope="row">Mahajanga</th><td>West coast</td><td>-15.72</td><td>46.32</td></tr>
+<tr><th scope="row">Antsiranana</th><td>Far north</td><td>-12.28</td><td>49.29</td></tr>
+<tr><th scope="row">Toliara</th><td>Semi-arid south</td><td>-23.35</td><td>43.67</td></tr>
+</tbody>
+</table>
+        </div>
+        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="collected-title">
+          <table data-i18n="h.data.variables">
+<thead><tr><th scope="col">Variable</th><th scope="col">Description</th><th scope="col">Unit</th><th scope="col">Source</th></tr></thead>
+<tbody>
+<tr><td><code>tmean_era5</code>, <code>tmax_era5</code>, <code>tmin_era5</code></td><td>Daily mean, maximum and minimum air temperature at 2 m (<strong>used for the analysis</strong>)</td><td>°C</td><td>ERA5</td></tr>
+<tr><td><code>rh_mean_era5</code></td><td>Daily mean relative humidity at 2 m</td><td>%</td><td>ERA5</td></tr>
+<tr><td><code>hi_max_era5</code></td><td>Daily maximum heat index, computed hour by hour with the NOAA formula</td><td>°C</td><td>ERA5</td></tr>
+<tr><td><code>rain_chirps</code></td><td>Daily rainfall (<strong>used for the analysis</strong>)</td><td>mm/day</td><td>CHIRPS</td></tr>
+<tr><td><code>T2M</code>, <code>T2M_MAX</code>, <code>T2M_MIN</code>, <code>RH2M</code>, <code>PRECTOTCORR</code></td><td>Temperature, humidity and rainfall (cross-check only)</td><td>°C, %, mm/day</td><td>NASA POWER</td></tr>
+</tbody>
+</table>
+        </div>
+        <ul data-i18n="h.data.volume">
+<li><strong>Period:</strong> 1 January 1981 – 31 December 2025, one value per day</li>
+<li><strong>Volume:</strong> 16,436 days × 6 cities = 98,616 rows per source, stored as one CSV per city in <code>data/raw/</code> (NASA POWER), <code>data/raw/chirps/</code>, <code>data/raw/era5/</code> and <code>data/raw/era5_heat/</code></li>
+</ul>
+
+        <h3 id="rain-title" data-i18n="h.data.rain_title">Rainfall validation</h3>
+        <p data-i18n="h.data.rain_intro">Mean annual rainfall over 1981–2025, compared with published long-term normals (mostly weather-station records, over different periods: use for order of magnitude only).</p>
+        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="rain-title">
+          <table data-i18n="h.data.rain">
+<thead><tr><th scope="col">City</th><th scope="col">NASA POWER</th><th scope="col">CHIRPS</th><th scope="col">Published normal</th><th scope="col">NASA POWER error</th><th scope="col">CHIRPS error</th></tr></thead>
+<tbody>
+<tr><th scope="row">Toamasina</th><td>1,926 mm</td><td>3,271 mm</td><td>3,368 mm</td><td>-43 %</td><td><strong>-3 %</strong></td></tr>
+<tr><th scope="row">Antananarivo</th><td>2,371 mm</td><td>1,322 mm</td><td>1,365 mm</td><td>+74 %</td><td><strong>-3 %</strong></td></tr>
+<tr><th scope="row">Mahajanga</th><td>1,417 mm</td><td>1,470 mm</td><td>1,476 mm</td><td>-4 %</td><td><strong>0 %</strong></td></tr>
+<tr><th scope="row">Fianarantsoa</th><td>2,038 mm</td><td>1,151 mm</td><td>1,085 mm</td><td>+88 %</td><td><strong>+6 %</strong></td></tr>
+<tr><th scope="row">Toliara</th><td>550 mm</td><td>312 mm</td><td>about 360 mm (semi-arid south-west)</td><td>+53 %</td><td><strong>-13 %</strong></td></tr>
+<tr><th scope="row">Antsiranana</th><td>1,102 mm</td><td>1,156 mm</td><td>940 mm</td><td>+17 %</td><td>+23 %</td></tr>
+</tbody>
+</table>
+        </div>
+        <p data-i18n="h.data.rain_note">CHIRPS stays within about 15 % of the normals for five cities out of six, while NASA POWER is off by more than 40 % in four of them.</p>
+
+        <h3 id="temp-title" data-i18n="h.data.temp_title">Temperature cross-check</h3>
+        <p data-i18n="h.data.temp_intro">Trend of the annual mean temperature, Sen's slope in °C per decade (all significant, p &lt; 0.05).</p>
+        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="temp-title">
+          <table class="table-kv" data-i18n="h.data.temp">
+<thead><tr><th scope="col">City</th><th scope="col">NASA POWER</th><th scope="col">ERA5</th></tr></thead>
+<tbody>
+<tr><th scope="row">Antsiranana</th><td>+0.25</td><td>+0.18</td></tr>
+<tr><th scope="row">Mahajanga</th><td>+0.20</td><td>+0.20</td></tr>
+<tr><th scope="row">Toamasina</th><td>+0.22</td><td>+0.22</td></tr>
+<tr><th scope="row">Antananarivo</th><td>+0.25</td><td>+0.26</td></tr>
+<tr><th scope="row">Fianarantsoa</th><td><strong>+0.45</strong></td><td>+0.26</td></tr>
+<tr><th scope="row">Toliara</th><td><strong>+0.11</strong></td><td>+0.25</td></tr>
+</tbody>
+</table>
+        </div>
+        <p data-i18n="h.data.temp_note">Both sources agree that every city has warmed; they disagree on the size of the trend in Fianarantsoa and Toliara.</p>
+
+        <h3 id="roccc-title" data-i18n="h.data.roccc_title">Data quality (ROCCC)</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="roccc-title">
+          <table class="table-kv" data-i18n="h.data.roccc">
+<thead><tr><th scope="col">Criterion</th><th scope="col">Assessment</th></tr></thead>
+<tbody>
+<tr><th scope="row">Reliable</th><td>All sources come from recognised scientific institutions (ECMWF, UC Santa Barbara Climate Hazards Center, NASA) and are widely used in research, but they are gridded estimates, not weather-station records. Rainfall was checked against published normals and temperature against a second dataset</td></tr>
+<tr><th scope="row">Original</th><td>Downloaded directly from the official APIs, with no intermediary dataset</td></tr>
+<tr><th scope="row">Comprehensive</th><td>45 years of daily data for 6 cities covering the main climate zones; no missing values and no duplicate dates in any source</td></tr>
+<tr><th scope="row">Current</th><td>Covers the period up to 31 December 2025</td></tr>
+<tr><th scope="row">Cited</th><td>See <a href="#sources-title"><em>Sources &amp; acknowledgements</em></a></td></tr>
+</tbody>
+</table>
+        </div>
+
+        <h3 data-i18n="h.data.known_title">Known limitations of the data</h3>
+        <ul data-i18n="h.data.known">
+<li><strong>Grid cells, not stations:</strong> each value is an average over a grid cell. Local effects, such as the extra heat of cities, are smoothed out.</li>
+<li><strong>CHIRPS daily values are approximations:</strong> CHIRPS is built on 5-day totals that are then split into days. Day-by-day indicators (dry spells, start of the rainy season) should be read as indicative; seasonal totals are more robust.</li>
+</ul>
+      </div>
+    </section>
+
+    <!-- ================= Method (README: 3. Process + method of 4. Analyze) ================= -->
+    <section id="method" class="section" aria-labelledby="method-title">
+      <div class="container prose">
+        <h2 id="method-title" data-i18n="h.method.title">Method</h2>
+
+        <h3 data-i18n="h.method.clean_title">Cleaning</h3>
+        <p data-i18n="h.method.clean_intro">Cleaning is done in <a href="https://github.com/nirinaHelena/heather/blob/main/notebooks/01_cleaning.ipynb"><code>notebooks/01_cleaning.ipynb</code></a> with Python (pandas). The output is <code>data/processed/madagascar_climate_daily.csv</code>: 98,616 rows × 18 columns, one row per city per day.</p>
+        <details>
+          <summary id="clean-title" data-i18n="h.method.clean_summary">Cleaning log (8 steps)</summary>
+          <div class="table-wrap" tabindex="0" role="region" aria-labelledby="clean-title">
+            <table data-i18n="h.method.clean">
+<thead><tr><th scope="col">Step</th><th scope="col">Operation</th><th scope="col">Result</th></tr></thead>
+<tbody>
+<tr><th scope="row">1</th><td>Combined the 6 NASA POWER city files and added each city's climate zone</td><td>98,616 rows (16,436 per city); every city mapped to a zone</td></tr>
+<tr><th scope="row">1b</th><td>Merged daily CHIRPS rainfall on city and date (one-to-one)</td><td>0 days without a value</td></tr>
+<tr><th scope="row">1c</th><td>Merged daily ERA5 temperatures</td><td>0 days without a value</td></tr>
+<tr><th scope="row">1d</th><td>Merged ERA5 daily humidity and daily maximum heat index (computed from hourly data, 24 hours checked for every day)</td><td>0 days without a value</td></tr>
+<tr><th scope="row">2</th><td>Converted <code>date</code> from text (<code>YYYYMMDD</code>) to a date type</td><td>Dates valid; all measurements stored as numbers</td></tr>
+<tr><th scope="row">3</th><td>Replaced the missing-value codes (<code>-999</code> NASA POWER, <code>-9999</code> CHIRPS) with <code>NaN</code></td><td>0 missing values found</td></tr>
+<tr><th scope="row">4</th><td>Consistency checks: duplicates, missing days, min ≤ mean ≤ max temperature (both sources), rainfall ≥ 0, humidity 0–100 %, plausible temperature and heat-index ranges</td><td>0 rows failing; no rows removed or modified</td></tr>
+<tr><th scope="row">5</th><td>Investigated extreme values</td><td>Hottest day: 39.8 °C (Toliara, 11 Jan 2025). Coldest night: 3.0 °C (Fianarantsoa, 30 Jun 2009). Wettest day in CHIRPS: 434 mm (Toamasina, 7 Apr 1992). The NASA POWER rainfall record (244 mm, Antananarivo, 12 Apr 2020) is not confirmed by CHIRPS (see <a href="#limits"><em>Limitations</em></a>)</td></tr>
+<tr><th scope="row">6</th><td>Added <code>year</code>, <code>month</code>, <code>season</code> (rainy: Nov–Apr, dry: May–Oct) and <code>hydro_year</code> (1 July – 30 June)</td><td>Hydrological years 1980 and 2025 are incomplete and are excluded from rainy-season analyses</td></tr>
+<tr><th scope="row">7</th><td>Validated mean annual rainfall of both sources against published normals</td><td>CHIRPS retained for all rainfall analyses</td></tr>
+<tr><th scope="row">8</th><td>Reordered columns, sorted by city and date, saved the clean file</td><td>98,616 rows × 18 columns</td></tr>
+</tbody>
+</table>
+          </div>
+        </details>
+
+        <h3 data-i18n="h.method.trends_title">Analysis</h3>
+        <p data-i18n="h.method.trends">The analysis is in <a href="https://github.com/nirinaHelena/heather/blob/main/notebooks/02_analysis.ipynb"><code>notebooks/02_analysis.ipynb</code></a>. Trends use Sen's slope with the Mann-Kendall test (Hamed-Rao correction for autocorrelation where it can be computed); a trend is called significant when p &lt; 0.05.</p>
+      </div>
+    </section>
+
+    <!-- ================= Figures (README: 5. Share) ================= -->
+    <section id="figures" class="section" aria-labelledby="figures-title">
+      <div class="container">
+        <h2 id="figures-title" data-i18n="h.figures.title">Figures</h2>
+
+        <figure class="figure">
+          <div class="figure-card">
+            <img src="../../assets/img/heather/03_warming_stripes.png" width="2327" height="854" loading="lazy" alt="Warming stripes of the six cities" data-i18n-alt="h.fig.03.alt">
+          </div>
+          <figcaption data-i18n="h.fig.03.cap">In every city, cool years dominated the 1980s–90s; warm years dominate since 2010.</figcaption>
+        </figure>
+
+        <figure class="figure">
+          <div class="figure-card">
+            <img src="../../assets/img/heather/06_dangerous_heat_days.png" width="3007" height="1446" loading="lazy" alt="Dangerous-heat days on the coasts" data-i18n-alt="h.fig.06.alt">
+          </div>
+          <figcaption data-i18n="h.fig.06.cap">Dangerous-heat days have more than tripled in Mahajanga, Toliara and Toamasina since the 1980s.</figcaption>
+        </figure>
+
+        <figure class="figure">
+          <div class="figure-card">
+            <img src="../../assets/img/heather/05_drought_spi.png" width="2608" height="2026" loading="lazy" alt="Seasonal drought index (SPI-6)" data-i18n-alt="h.fig.05.alt">
+          </div>
+          <figcaption data-i18n="h.fig.05.cap">Dry rainy seasons have become more frequent on the northern, western and eastern coasts.</figcaption>
+        </figure>
+
+        <figure class="figure">
+          <div class="figure-card">
+            <img src="../../assets/img/heather/04_rainy_season_onset.png" width="2776" height="955" loading="lazy" alt="Start date of the rainy season in each city since 1981" data-i18n-alt="h.fig.04.alt">
+          </div>
+          <figcaption data-i18n="h.fig.04.cap">Since 1981, the rainy season has not started significantly later in any city.</figcaption>
+        </figure>
+
+        <h3 id="all-figures-title" data-i18n="h.figures.all_title">All charts</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="all-figures-title">
+          <table data-i18n="h.figures.all">
+<thead><tr><th scope="col">Figure</th><th scope="col">Message</th></tr></thead>
+<tbody>
+<tr><td><a href="../../assets/img/heather/01_rainfall_normals.png"><code>01_rainfall_normals.png</code></a></td><td>The east coast gets rain all year; everywhere else, it falls between November and April</td></tr>
+<tr><td><a href="../../assets/img/heather/02_temperature_normals.png"><code>02_temperature_normals.png</code></a></td><td>The Highlands are about 6 to 10 °C cooler than the coasts all year round</td></tr>
+<tr><td><a href="../../assets/img/heather/03_warming_stripes.png"><code>03_warming_stripes.png</code></a></td><td>In every city, cool years dominated the 1980s–90s; warm years dominate since 2010</td></tr>
+<tr><td><a href="../../assets/img/heather/04_rainy_season_onset.png"><code>04_rainy_season_onset.png</code></a></td><td>Since 1981, the rainy season has not started significantly later in any city</td></tr>
+<tr><td><a href="../../assets/img/heather/05_drought_spi.png"><code>05_drought_spi.png</code></a></td><td>Dry rainy seasons have become more frequent on the northern, western and eastern coasts</td></tr>
+<tr><td><a href="../../assets/img/heather/06_dangerous_heat_days.png"><code>06_dangerous_heat_days.png</code></a></td><td>Dangerous-heat days have more than tripled in Mahajanga, Toliara and Toamasina since the 1980s</td></tr>
+</tbody>
+</table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Key results (README: 4. Analyze) ================= -->
+    <section id="results" class="section" aria-labelledby="results-title">
+      <div class="container">
+        <h2 id="results-title" data-i18n="h.results.title">Key results</h2>
+        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="results-title">
+          <table data-i18n="h.results.table">
+<thead><tr><th scope="col">Question</th><th scope="col">Method</th><th scope="col">Answer</th></tr></thead>
+<tbody>
+<tr><th scope="row">Background warming</th><td>Annual mean temperature, ERA5, cross-checked with NASA POWER</td><td>All six cities warmed by +0.18 to +0.26 °C per decade (about +1 °C since 1981). Daytime maximums rise faster than night-time minimums</td></tr>
+<tr><th scope="row">1. Rain reliability</th><td>Onset of the rainy season (first 20 mm in 3 days not followed by 10 dry days within 30 days) and false starts, CHIRPS</td><td>No significant change in any city; false starts slightly decreased. In Toliara, 21 of 44 seasons never reach a reliable onset — a permanent, not a new, problem</td></tr>
+<tr><th scope="row">2. Drought</th><td>Seasonal SPI-6 (November–April rainfall, gamma distribution fitted on 1991–2020) and SPI-3 drought months, CHIRPS</td><td>Drier rainy seasons on the coasts: dry seasons 2 → 7 in Mahajanga, 1 → 6 in Toamasina (significant trend), 3 → 6 in Antsiranana between 1981–2002 and 2003–2024. No trend on the Highlands or in Toliara</td></tr>
+<tr><th scope="row">3. Dangerous heat</th><td>Days per year with a daily maximum heat index ≥ 39.4 °C (NOAA "danger" level), computed hourly from ERA5</td><td>More than tripled between 1981–1990 and 2016–2025: Mahajanga 19 → 64, Toliara 8 → 25, Toamasina 4 → 17 days per year (all p &lt; 0.001). No such day on the Highlands</td></tr>
+<tr><th scope="row">4. Regions</th><td>Comparison of the three risks city by city</td><td>The most exposed regions differ by risk. <strong>Mahajanga</strong> is the only city where two risks rise together (heat and drought). The Highlands warm as fast as the coasts but are protected from dangerous heat by altitude</td></tr>
+</tbody>
+</table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Limitations ================= -->
+    <section id="limits" class="section" aria-labelledby="limits-title">
+      <div class="container prose">
+        <h2 id="limits-title" data-i18n="h.limits.title">Limitations</h2>
+        <ul data-i18n="h.limits.list">
+<li><strong>Gridded estimates, not station records:</strong> values describe grid cells of 5 to 25 km, not a precise point in a city.</li>
+<li><strong>Six cities cannot represent the whole island:</strong> the severe 2020–21 drought of the far south (Androy, Anosy) does not appear in Toliara, where that season was wetter than normal.</li>
+<li><strong>The size of the warming is uncertain in two cities:</strong> NASA POWER and ERA5 disagree for Fianarantsoa (+0.45 vs +0.26 °C per decade) and Toliara (+0.11 vs +0.25); only the direction of the trend is certain there.</li>
+<li><strong>Heat index:</strong> computed for shade and light wind; full sunshine and urban heat make conditions worse than the figures show.</li>
+<li><strong>Rainy-season onset:</strong> the rule comes from studies of wetter climates and is demanding for semi-arid Toliara; daily CHIRPS values are approximate.</li>
+<li><strong>Multiple tests:</strong> with six cities, one p-value below 0.05 can occur by chance; conclusions rely on consistent results across cities, indicators and sources.</li>
+<li><strong>The NASA POWER rainfall record is probably a model artefact.</strong> NASA POWER shows a six-day wet episode in Antananarivo (about 680 mm from 11 to 16 April 2020, including 244 mm on 12 April). CHIRPS records no rain at all on the same days, and no matching report was found.</li>
+<li><strong>Rainfall validation is approximate:</strong> the published normals cover other periods (e.g. 1961–1990) and some come from secondary compilations.</li>
+</ul>
+      </div>
+    </section>
+
+    <!-- ================= Links ================= -->
+    <section id="links" class="section" aria-labelledby="links-title">
+      <div class="container prose">
+        <h2 id="links-title" data-i18n="h.links.title">Links</h2>
+        <ul data-i18n="h.links.list">
+<li><a href="https://github.com/nirinaHelena/heather">GitHub repository: nirinaHelena/heather</a> — code, data and notebooks</li>
+<li><a href="report.html">Full HTML report</a> — the analysis notebook with all charts</li>
+<li><a href="https://github.com/nirinaHelena/heather/blob/main/notebooks/01_cleaning.ipynb">Notebook 01 — cleaning</a></li>
+<li><a href="https://github.com/nirinaHelena/heather/blob/main/notebooks/02_analysis.ipynb">Notebook 02 — analysis</a></li>
+</ul>
+
+        <h3 id="sources-title" data-i18n="h.sources.title">Sources &amp; acknowledgements</h3>
+        <ul class="sources" data-i18n="h.sources.list">
+<li>Hersbach, H. et al. (2020). The ERA5 global reanalysis. <em>Quarterly Journal of the Royal Meteorological Society</em>, 146, 1999–2049. <a href="https://doi.org/10.1002/qj.3803">https://doi.org/10.1002/qj.3803</a></li>
+<li>ERA5 data accessed through the <a href="https://open-meteo.com/">Open-Meteo</a> historical weather API (weather data by Open-Meteo.com).</li>
+<li>Funk, C. et al. (2015). The climate hazards infrared precipitation with stations — a new environmental record for monitoring extremes. <em>Scientific Data</em>, 2, 150066. <a href="https://doi.org/10.1038/sdata.2015.66">https://doi.org/10.1038/sdata.2015.66</a></li>
+<li>CHIRPS data were accessed through ClimateSERV (NASA / SERVIR).</li>
+<li>These data were obtained from the NASA Langley Research Center (LaRC) POWER Project funded through the NASA Earth Science/Applied Science Program.</li>
+<li>Heat index: Rothfusz, L. P. (1990). <em>The heat index "equation"</em>. NWS Southern Region Technical Attachment SR 90-23, with the adjustments used by the US National Weather Service.</li>
+<li>Published rainfall normals: NOAA climate normals 1961–1990 (Toamasina, Mahajanga) and public climate summaries for the other cities.</li>
+</ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p data-i18n="footer.text">© 2026 Nirina Helena</p>
+    </div>
+  </footer>
+</body>
+</html>

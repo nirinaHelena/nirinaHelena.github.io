@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-i18n="meta.index.title">Nirina Helena — Portfolio</title>
+  <meta name="description" content="TODO: one-sentence description of the portfolio (about 150 characters)." data-i18n-content="meta.index.description">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nirinahelena.github.io/">
+  <meta property="og:title" content="Nirina Helena — Portfolio" data-i18n-content="meta.index.title">
+  <meta property="og:description" content="TODO: one-sentence description of the portfolio (about 150 characters)." data-i18n-content="meta.index.description">
+  <meta property="og:image" content="https://nirinahelena.github.io/assets/img/heather/03_warming_stripes.png">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <!-- Applies the theme before the first paint (saved choice, otherwise the system setting). -->
+  <script>
+    (function () {
+      var theme = null;
+      try { theme = window.localStorage.getItem("theme"); } catch (e) {}
+      if (theme !== "light" && theme !== "dark") {
+        theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/i18n.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#home">Nirina Helena</a>
+
+      <div class="controls" id="controls" hidden>
+        <button type="button" class="ctl" id="lang-toggle" aria-label="FR / EN: switch to French" data-i18n-aria-label="lang.switch">
+          <span data-lang="fr">FR</span><span aria-hidden="true">/</span><span data-lang="en">EN</span>
+        </button>
+        <button type="button" class="ctl" id="theme-toggle" aria-pressed="false" aria-label="Switch to dark theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4" fill="currentColor"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+      </div>
+
+      <nav class="site-nav" aria-label="Main navigation" data-i18n-aria-label="nav.label">
+        <ul>
+          <li><a href="#home" data-i18n="nav.home">Home</a></li>
+          <li><a href="#about" data-i18n="nav.about">About</a></li>
+          <li><a href="#experience" data-i18n="nav.experience">Experience</a></li>
+          <li><a href="#projects" data-i18n="nav.projects">Projects</a></li>
+          <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+          <li><a href="#education" data-i18n="nav.education">Education</a></li>
+          <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ================= Home ================= -->
+    <section id="home" class="hero" aria-labelledby="home-title">
+      <div class="container hero-inner">
+        <div>
+          <p class="kicker" data-i18n="home.kicker">TODO: short greeting</p>
+          <h1 id="home-title">Nirina Helena</h1>
+          <p class="role" data-i18n="home.role">TODO: job title</p>
+          <p class="lead" data-i18n="home.tagline">TODO: one or two sentences introducing who you are and what you are looking for.</p>
+          <div class="actions">
+            <a class="btn" href="#projects" data-i18n="home.cta_projects">View projects</a>
+            <a class="btn btn-ghost" href="#contact" data-i18n="home.cta_contact">Contact</a>
+          </div>
+        </div>
+        <img class="hero-photo" src="assets/img/photo-placeholder.svg" width="208" height="208" alt="TODO: portrait of Nirina Helena (placeholder image)" data-i18n-alt="home.photo_alt">
+      </div>
+    </section>
+
+    <!-- ================= About ================= -->
+    <section id="about" class="section" aria-labelledby="about-title">
+      <div class="container prose">
+        <h2 id="about-title" data-i18n="about.title">About</h2>
+        <p data-i18n="about.p1">TODO: first paragraph — background and current position.</p>
+        <p data-i18n="about.p2">TODO: second paragraph — motivation for a master's degree in data / AI.</p>
+      </div>
+    </section>
+
+    <!-- ================= Experience ================= -->
+    <section id="experience" class="section" aria-labelledby="experience-title">
+      <div class="container">
+        <h2 id="experience-title" data-i18n="experience.title">Experience</h2>
+        <div class="cards">
+          <article class="card">
+            <h3>GENO / GenoPuzzle</h3>
+            <p class="company">Aureon Madagascar</p>
+            <p class="meta"><span data-i18n="exp.geno.role">TODO: role</span> · <span data-i18n="exp.geno.period">TODO: start date – end date</span></p>
+            <p data-i18n="exp.geno.desc">TODO: what the project is, what you built, measurable results.</p>
+            <ul class="tags" data-i18n="exp.geno.stack"><li>TODO: technology 1</li><li>TODO: technology 2</li></ul>
+          </article>
+          <article class="card">
+            <h3>AYU</h3>
+            <p class="company">Aureon Madagascar</p>
+            <p class="meta"><span data-i18n="exp.ayu.role">TODO: role</span> · <span data-i18n="exp.ayu.period">TODO: start date – end date</span></p>
+            <p data-i18n="exp.ayu.desc">TODO: what the project is, what you built, measurable results.</p>
+            <ul class="tags" data-i18n="exp.ayu.stack"><li>TODO: technology 1</li><li>TODO: technology 2</li></ul>
+          </article>
+          <article class="card">
+            <h3>InfoPoint</h3>
+            <p class="company">Aureon Madagascar</p>
+            <p class="meta"><span data-i18n="exp.infopoint.role">TODO: role</span> · <span data-i18n="exp.infopoint.period">TODO: start date – end date</span></p>
+            <p data-i18n="exp.infopoint.desc">TODO: what the project is, what you built, measurable results.</p>
+            <ul class="tags" data-i18n="exp.infopoint.stack"><li>TODO: technology 1</li><li>TODO: technology 2</li></ul>
+          </article>
+          <article class="card">
+            <h3>BirdIA</h3>
+            <p class="company">Numer Madagascar</p>
+            <p class="meta"><span data-i18n="exp.birdia.role">TODO: role</span> · <span data-i18n="exp.birdia.period">TODO: start date – end date</span></p>
+            <p data-i18n="exp.birdia.desc">TODO: what the project is, what you built, measurable results.</p>
+            <ul class="tags" data-i18n="exp.birdia.stack"><li>TODO: technology 1</li><li>TODO: technology 2</li></ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Projects ================= -->
+    <section id="projects" class="section" aria-labelledby="projects-title">
+      <div class="container">
+        <h2 id="projects-title" data-i18n="projects.title">Projects</h2>
+        <div class="cards">
+          <article class="card card-featured">
+            <div class="figure-card">
+              <img src="assets/img/heather/03_warming_stripes.png" width="2327" height="854" loading="lazy" alt="Warming stripes of the six cities" data-i18n-alt="projects.heather.img_alt">
+            </div>
+            <div>
+              <h3 data-i18n="projects.heather.title">Heather — Madagascar Climate Analysis (1981–2025)</h3>
+              <p data-i18n="projects.heather.desc">This project analyses 45 years of daily climate data (1981–2025) for six cities of Madagascar to measure how three climate risks that directly affect people have changed: unreliable rains, drought and dangerous heat.</p>
+              <ul class="tags" data-i18n="projects.heather.tags"><li>Python</li><li>pandas</li><li>SciPy</li><li>Matplotlib</li><li>Jupyter</li></ul>
+              <ul class="card-links">
+                <li><a href="projects/heather/" data-i18n="projects.heather.link_page">Project page</a></li>
+                <li><a href="projects/heather/report.html" data-i18n="projects.heather.link_report">HTML report</a></li>
+                <li><a href="https://github.com/nirinaHelena/heather" data-i18n="projects.heather.link_repo">GitHub repository</a></li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Skills ================= -->
+    <section id="skills" class="section" aria-labelledby="skills-title">
+      <div class="container">
+        <h2 id="skills-title" data-i18n="skills.title">Skills</h2>
+        <div class="cards cards-3">
+          <div class="card">
+            <h3 data-i18n="skills.g1.title">TODO: skill group 1</h3>
+            <ul class="tags" data-i18n="skills.g1.items"><li>TODO: skill</li><li>TODO: skill</li><li>TODO: skill</li></ul>
+          </div>
+          <div class="card">
+            <h3 data-i18n="skills.g2.title">TODO: skill group 2</h3>
+            <ul class="tags" data-i18n="skills.g2.items"><li>TODO: skill</li><li>TODO: skill</li><li>TODO: skill</li></ul>
+          </div>
+          <div class="card">
+            <h3 data-i18n="skills.g3.title">TODO: skill group 3</h3>
+            <ul class="tags" data-i18n="skills.g3.items"><li>TODO: skill</li><li>TODO: skill</li><li>TODO: skill</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Education ================= -->
+    <section id="education" class="section" aria-labelledby="education-title">
+      <div class="container">
+        <h2 id="education-title" data-i18n="education.title">Education</h2>
+        <div class="cards">
+          <article class="card">
+            <h3 data-i18n="edu.hei.title">TODO: degree title — HEI</h3>
+            <p class="meta" data-i18n="edu.hei.period">TODO: years</p>
+            <p data-i18n="edu.hei.desc">TODO: main subjects, final project, distinction.</p>
+          </article>
+          <article class="card">
+            <h3 data-i18n="edu.gda.title">Google Data Analytics Professional Certificate</h3>
+            <p class="meta" data-i18n="edu.gda.period">TODO: completion date</p>
+            <p data-i18n="edu.gda.desc">TODO: what the certificate covered and the capstone project.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Contact ================= -->
+    <section id="contact" class="section" aria-labelledby="contact-title">
+      <div class="container prose">
+        <h2 id="contact-title" data-i18n="contact.title">Contact</h2>
+        <p data-i18n="contact.intro">TODO: one sentence inviting people to get in touch.</p>
+        <ul class="contact-list">
+          <li data-i18n="contact.email">TODO: email address</li>
+          <li><a href="https://github.com/nirinaHelena" data-i18n="contact.github">GitHub: nirinaHelena</a></li>
+          <li data-i18n="contact.linkedin">TODO: LinkedIn profile link</li>
+          <li><a href="assets/cv/CV_FR.pdf" data-i18n="contact.cv_fr">CV in French (PDF)</a></li>
+          <li><a href="assets/cv/CV_EN.pdf" data-i18n="contact.cv_en">CV in English (PDF)</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p data-i18n="footer.text">© 2026 Nirina Helena</p>
+    </div>
+  </footer>
+</body>
+</html>
