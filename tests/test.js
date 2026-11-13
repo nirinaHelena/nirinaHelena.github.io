@@ -75,6 +75,31 @@ async function scrollThrough(page) {
     }));
     const name = `${p}-${v}-${lang}-${theme}.png`;
     await page.screenshot({ path: path.join(SHOTS, name), fullPage: true });
+    if (p === "index") {
+      // About and Experience are written: the only placeholders left are the dates and the BirdIA tag.
+      const todo = await page.evaluate(() => {
+        const allowed = (key) => /^exp\.[a-z]+\.period$/.test(key) || key === "exp.birdia.stack";
+        const out = { total: 0, unexpected: [], heather: null, cards: document.querySelectorAll("#experience .card").length };
+        document.querySelectorAll("#about [data-i18n], #experience [data-i18n]").forEach((el) => {
+          if (!/TODO:/.test(el.textContent)) return;
+          out.total++;
+          if (!allowed(el.getAttribute("data-i18n"))) out.unexpected.push(el.getAttribute("data-i18n"));
+        });
+        const rest = Array.from(document.querySelectorAll("#about, #experience")).map((e) => e.textContent).join(" ");
+        out.inText = (rest.match(/TODO:/g) || []).length;
+        const a = document.querySelector('#about [data-i18n="about.p2"] a');
+        out.heather = a && a.getAttribute("href");
+        return out;
+      });
+      check(todo.unexpected.length === 0 && todo.total === 5 && todo.inText === 5 && todo.cards === 4 && todo.heather === "projects/heather/index.html",
+        `index ${v} ${lang} ${theme}: no "TODO:" in #about and #experience except the dates and the BirdIA tag`,
+        `${todo.inText} left (4 dates + 1 tag), unexpected=[${todo.unexpected}], Heather link=${todo.heather}`);
+      if (v === "desktop" && lang === "fr" && theme === "light") {
+        // Clip of the full-page capture, so the sticky header does not cover the section title.
+        const box = await page.locator("#experience").boundingBox();
+        await page.screenshot({ path: path.join(SHOTS, "crop-index-experience-desktop-fr-light.png"), fullPage: true, clip: box });
+      }
+    }
     const expectedBg = theme === "dark" ? "rgb(18, 16, 20)" : "rgb(255, 255, 255)";
     const figOk = info.figBg.every((c) => c === "rgb(255, 255, 255)") && info.imgFilter === 0;
     check(bag.length === 0 && info.lang === lang && info.theme === theme && info.bg === expectedBg && info.overflow <= 0 &&
