@@ -86,11 +86,11 @@ async function scrollThrough(page) {
     const todos = todoIn(await page.evaluate(visibleText));
     check(todos.length === 0, `${p} ${v} ${lang} ${theme}: no visible "TODO"`, `${todos.length} ${todos.join(" | ")}`);
     if (p === "index") {
-      // Construction mode: the placeholders (photo, BirdIA tags, LinkedIn line, CV links) are out of the page.
+      // Construction mode: the placeholders (BirdIA tags, LinkedIn line, CV links) are out of the page. The photo is there.
       const todo = await page.evaluate(() => {
         const out = { counts: {}, where: [], cards: document.querySelectorAll("#experience .card").length };
+        out.photo = Array.from(document.querySelectorAll(".hero img, .hero-photo")).map((i) => ({ src: i.getAttribute("src"), alt: i.alt, natural: i.naturalWidth, width: Math.round(i.getBoundingClientRect().width) }));
         out.hidden = {
-          photo: document.querySelectorAll(".hero img, .hero-photo").length,
           birdiaTags: Array.from(document.querySelectorAll("#experience .card")).filter((c) => c.querySelector("h3").textContent === "BirdIA").map((c) => c.querySelectorAll(".tags").length).join(),
           contactItems: document.querySelectorAll("#contact .contact-list li").length,
           cv: document.querySelectorAll('a[href$=".pdf"]').length,
@@ -121,8 +121,14 @@ async function scrollThrough(page) {
       const total = Object.values(c).reduce((a, b) => a + b, 0);
       check(total === 0 && todo.where.length === 0 && todo.cards === 4, `index ${v} ${lang} ${theme}: no "TODO" in any section, 4 experience cards`, `total=${total} at [${todo.where}] cards=${todo.cards}`);
       const hd = todo.hidden;
-      check(hd.photo === 0 && hd.birdiaTags === "0" && hd.contactItems === 2 && hd.cv === 0 && !hd.linkedin,
-        `index ${v} ${lang} ${theme}: placeholders hidden (photo, BirdIA tags, LinkedIn line, CV links)`, JSON.stringify(hd));
+      check(hd.birdiaTags === "0" && hd.contactItems === 2 && hd.cv === 0 && !hd.linkedin,
+        `index ${v} ${lang} ${theme}: placeholders hidden (BirdIA tags, LinkedIn line, CV links)`, JSON.stringify(hd));
+      // Home photo: one image, its file is in the repository and loads, its alt text is written.
+      const ph = todo.photo[0];
+      const wantAlt = lang === "fr" ? "Initiales de Nirina Helena" : "Nirina Helena's initials";
+      check(todo.photo.length === 1 && !!ph.src && fs.existsSync(path.join(REPO, ph.src)) && ph.natural > 0 && ph.width > 0 &&
+        ph.alt.trim().length > 0 && !/TODO/i.test(ph.alt) && ph.alt === wantAlt,
+        `index ${v} ${lang} ${theme}: home photo present, file exists, alt text written`, JSON.stringify(todo.photo));
       check(todo.heather === "projects/heather/index.html" && todo.heatherEdu === "projects/heather/index.html" &&
         todo.mail && todo.mail[0] === "mailto:helenarandrianaly@gmail.com" && todo.mail[1].endsWith("helenarandrianaly@gmail.com"),
         `index ${v} ${lang} ${theme}: Heather links (About, Education) and mailto link`, `About=${todo.heather} Education=${todo.heatherEdu} mail=${todo.mail && todo.mail[0]}`);
@@ -492,20 +498,29 @@ async function scrollThrough(page) {
       await c.close();
     }
 
-    // e. Home page without the photo (construction mode): the text block keeps its place and its margins.
+    // e. Home page with the photo: two columns on desktop (text, then photo); on small screens a single column, photo above the name.
     for (const [w, h] of [[375, 812], [390, 844], [639, 900], [1280, 800]]) {
       const c = await browser.newContext({ viewport: { width: w, height: h } });
       const pg = await c.newPage(); await pg.goto(BASE + "/");
       const r = await pg.evaluate(() => {
         const box = (q) => { const b = document.querySelector(q).getBoundingClientRect(); return { left: Math.round(b.left), right: Math.round(b.right), top: Math.round(b.top), bottom: Math.round(b.bottom) }; };
-        const cont = box(".hero-inner"), brand = box(".brand"), h1 = box("h1"), lead = box(".lead"), actions = box(".actions");
+        const cont = box(".hero-inner"), brand = box(".brand"), h1 = box("h1"), lead = box(".lead"), actions = box(".actions"), photo = box(".hero-photo"), text = box(".hero-inner > div");
         const cs = getComputedStyle(document.querySelector(".hero-inner"));
         return { photos: document.querySelectorAll(".hero img").length, children: document.querySelector(".hero-inner").children.length, columns: cs.gridTemplateColumns.split(" ").length,
-          brandLeft: brand.left, h1Left: h1.left, leadLeft: lead.left, leadRight: lead.right, contRight: cont.right, actionsLeft: actions.left, vw: window.innerWidth, overflow: document.documentElement.scrollWidth - window.innerWidth };
+          photo, textRight: text.right, h1Top: h1.top, brandLeft: brand.left, h1Left: h1.left, leadLeft: lead.left, leadRight: lead.right, contRight: cont.right, actionsLeft: actions.left, vw: window.innerWidth, overflow: document.documentElement.scrollWidth - window.innerWidth };
       });
-      // Text aligned with the brand in the header, inside the container, on a single column.
-      const ok = r.photos === 0 && r.children === 1 && r.columns === 1 && r.h1Left === r.brandLeft && r.leadLeft === r.brandLeft && r.actionsLeft === r.brandLeft && r.leadRight <= r.contRight && r.overflow <= 0;
-      check(ok, `home ${w}px: no photo, hero text on one column aligned with the header`, JSON.stringify(r));
+      // Text aligned with the brand in the header, inside the container.
+      const base = r.photos === 1 && r.children === 2 && r.h1Left === r.brandLeft && r.leadLeft === r.brandLeft && r.actionsLeft === r.brandLeft && r.leadRight <= r.contRight && r.photo.right <= r.contRight && r.overflow <= 0;
+      const pw = r.photo.right - r.photo.left, phh = r.photo.bottom - r.photo.top;
+      if (w >= 768) {
+        // Desktop: two columns, the 208 px photo to the right of the text, on the same row.
+        const ok = base && r.columns === 2 && pw === 208 && phh === 208 && r.photo.left >= r.textRight && r.photo.top < r.h1Top + 208 && r.photo.bottom > r.h1Top;
+        check(ok, `home ${w}px: photo on a second column, to the right of the text`, JSON.stringify(r));
+      } else {
+        // Small screens: one column, the 120 px photo above the name, aligned with the text.
+        const ok = base && r.columns === 1 && pw === 120 && phh === 120 && r.photo.bottom <= r.h1Top && r.photo.left === r.brandLeft;
+        check(ok, `home ${w}px: one column, photo above the name`, JSON.stringify(r));
+      }
       await c.close();
     }
 

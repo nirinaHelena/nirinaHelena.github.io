@@ -639,7 +639,7 @@ summary {
     padding-block: 6rem;
   }
 
-  /* Two columns only when the photo is there (it is hidden while the site is under construction). */
+  /* Two columns only when the photo is there. */
   .hero-inner:has(.hero-photo) {
     grid-template-columns: 1fr auto;
     align-items: center;
