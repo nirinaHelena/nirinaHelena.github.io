@@ -321,8 +321,10 @@ html[lang="en"] .ctl [data-lang="en"] {
 }
 
 .hero-photo {
-  width: 9rem;
-  height: 9rem;
+  /* Small screens: the photo comes first, above the greeting and the name. */
+  order: -1;
+  width: 7.5rem;
+  height: 7.5rem;
   border-radius: 50%;
   border: 1px solid var(--border);
 }
@@ -467,6 +469,15 @@ html[lang="en"] .ctl [data-lang="en"] {
   background: #FFFFFF;
 }
 
+a.figure-card {
+  display: block;
+  cursor: zoom-in;
+}
+
+a.figure-card:hover {
+  border-color: var(--violet);
+}
+
 .figure figcaption {
   margin-top: 0.75rem;
   color: var(--muted);
@@ -489,8 +500,9 @@ table {
   line-height: 1.5;
 }
 
+/* Narrower tables still keep readable columns; the wrapper scrolls instead. */
 table.table-kv {
-  min-width: 0;
+  min-width: 28rem;
 }
 
 th,
@@ -607,6 +619,18 @@ summary {
     scroll-margin-top: 7.5rem;
   }
 
+  /* Sections start with a separator line: stop them slightly under the sticky
+     header so that line never doubles the header's own border. */
+  .section,
+  .hero {
+    scroll-margin-top: 3.5rem;
+  }
+
+  .page-project .section,
+  .page-project .hero {
+    scroll-margin-top: 6rem;
+  }
+
   .section {
     padding-block: 5rem;
   }
@@ -622,6 +646,7 @@ summary {
   }
 
   .hero-photo {
+    order: 0;
     width: 13rem;
     height: 13rem;
   }

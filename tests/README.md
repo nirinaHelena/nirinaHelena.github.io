@@ -47,6 +47,7 @@ This comparison loads the original report once, which fetches its scripts from c
 5. Pages readable without JavaScript; visible keyboard focus.
 6. `projects/heather/report.html`: renders fully, no external request.
 7. The English text in the HTML files is identical to `en` in `js/i18n.js`, and `en` and `fr` have the same keys.
+8. Review fixes: no Python warning or local path in the report, French drought wording, no horizontal page scroll at 375 px, figures link to their PNG, photo above the name on small screens, a single line under the header.
 
 ## When check 7 fails
 

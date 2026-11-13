@@ -261,6 +261,8 @@ var I18N = {
     "h.method.trends": `The analysis is in <a href="${BLOB}notebooks/02_analysis.ipynb"><code>notebooks/02_analysis.ipynb</code></a>. Trends use Sen's slope with the Mann-Kendall test (Hamed-Rao correction for autocorrelation where it can be computed); a trend is called significant when p &lt; 0.05.`,
 
     "h.figures.title": "Figures",
+    "h.fig.open": "Open full-size figure",
+    "h.fig.hint": "Select a figure to open it full size in a new tab.",
     "h.fig.03.alt": "Warming stripes of the six cities",
     "h.fig.03.cap": "In every city, cool years dominated the 1980s–90s; warm years dominate since 2010.",
     "h.fig.06.alt": "Dangerous-heat days on the coasts",
@@ -274,7 +276,7 @@ var I18N = {
 <thead><tr><th scope="col">Figure</th><th scope="col">Message</th></tr></thead>
 <tbody>
 <tr><td><a href="${FIG}01_rainfall_normals.png"><code>01_rainfall_normals.png</code></a></td><td>The east coast gets rain all year; everywhere else, it falls between November and April</td></tr>
-<tr><td><a href="${FIG}02_temperature_normals.png"><code>02_temperature_normals.png</code></a></td><td>The Highlands are about 6 to 10 °C cooler than the coasts all year round</td></tr>
+<tr><td><a href="${FIG}02_temperature_normals.png"><code>02_temperature_normals.png</code></a></td><td>The Highlands are about 5 to 9 °C cooler than the coasts all year round</td></tr>
 <tr><td><a href="${FIG}03_warming_stripes.png"><code>03_warming_stripes.png</code></a></td><td>In every city, cool years dominated the 1980s–90s; warm years dominate since 2010</td></tr>
 <tr><td><a href="${FIG}04_rainy_season_onset.png"><code>04_rainy_season_onset.png</code></a></td><td>Since 1981, the rainy season has not started significantly later in any city</td></tr>
 <tr><td><a href="${FIG}05_drought_spi.png"><code>05_drought_spi.png</code></a></td><td>Dry rainy seasons have become more frequent on the northern, western and eastern coasts</td></tr>
@@ -443,7 +445,7 @@ var I18N = {
     "h.summary.list": `
 <li><strong>Les six villes se sont réchauffées d'environ 1&nbsp;°C depuis 1981</strong> (+0,18 à +0,26&nbsp;°C par décennie), un résultat confirmé par deux jeux de données indépendants.</li>
 <li><strong>La chaleur dangereuse est le risque qui augmente le plus vite&nbsp;:</strong> les jours dépassant le niveau «&nbsp;danger&nbsp;» de l'indice de chaleur de la NOAA ont plus que triplé sur trois côtes, pour atteindre environ deux mois par an à Mahajanga.</li>
-<li><strong>Les saisons des pluies sont devenues plus sèches sur les côtes nord, ouest et est</strong>, mais pas sur les Hautes Terres ni dans le Sud.</li>
+<li><strong>Les saisons des pluies sont devenues moins arrosées sur les côtes nord, ouest et est</strong>, mais pas sur les Hautes Terres ni dans le Sud.</li>
 <li><strong>Le début de la saison des pluies ne s'est pas décalé</strong>&nbsp;; dans le Sud (Toliara), les pluies peu fiables sont un problème ancien plutôt que nouveau.</li>
 <li><strong>Mahajanga, sur la côte ouest, est le point chaud</strong>&nbsp;: c'est la seule ville où deux risques augmentent en même temps.</li>`,
     "h.summary.tools": "Outils&nbsp;: Python (pandas, NumPy, SciPy, pymannkendall, Matplotlib, seaborn), Jupyter, trois jeux de données climatiques publics consultés via leurs API.",
@@ -556,7 +558,7 @@ var I18N = {
     "h.data.known_title": "Limites connues des données",
     "h.data.known": `
 <li><strong>Des mailles, pas des stations&nbsp;:</strong> chaque valeur est une moyenne sur une maille de la grille. Les effets locaux, comme le surcroît de chaleur des villes, sont lissés.</li>
-<li><strong>Les valeurs journalières de CHIRPS sont des approximations&nbsp;:</strong> CHIRPS repose sur des cumuls de 5 jours, ensuite répartis par jour. Les indicateurs au jour le jour (séquences sèches, début de la saison des pluies) sont à lire comme indicatifs&nbsp;; les cumuls saisonniers sont plus robustes.</li>`,
+<li><strong>Les valeurs journalières de CHIRPS sont des approximations&nbsp;:</strong> CHIRPS repose sur des cumuls de 5 jours, ensuite répartis par jour. Les indicateurs au jour le jour (séquences sans pluie, début de la saison des pluies) sont à lire comme indicatifs&nbsp;; les cumuls saisonniers sont plus robustes.</li>`,
 
     "h.method.title": "Méthode",
     "h.method.clean_title": "Nettoyage",
@@ -581,6 +583,8 @@ var I18N = {
     "h.method.trends": `L'analyse se trouve dans <a href="${BLOB}notebooks/02_analysis.ipynb"><code>notebooks/02_analysis.ipynb</code></a>. Les tendances utilisent la pente de Sen avec le test de Mann-Kendall (correction de Hamed-Rao pour l'autocorrélation lorsqu'elle peut être calculée)&nbsp;; une tendance est dite significative lorsque p&nbsp;&lt;&nbsp;0,05.`,
 
     "h.figures.title": "Graphiques",
+    "h.fig.open": "Ouvrir la figure en taille réelle",
+    "h.fig.hint": "Sélectionnez une figure pour l'ouvrir en taille réelle dans un nouvel onglet.",
     "h.fig.03.alt": "Bandes de réchauffement des six villes",
     "h.fig.03.cap": "Dans chaque ville, les années fraîches dominaient les années 1980–90&nbsp;; les années chaudes dominent depuis 2010.",
     "h.fig.06.alt": "Jours de chaleur dangereuse sur les côtes",
@@ -594,7 +598,7 @@ var I18N = {
 <thead><tr><th scope="col">Figure</th><th scope="col">Message</th></tr></thead>
 <tbody>
 <tr><td><a href="${FIG}01_rainfall_normals.png"><code>01_rainfall_normals.png</code></a></td><td>La côte est reçoit de la pluie toute l'année&nbsp;; partout ailleurs, elle tombe entre novembre et avril</td></tr>
-<tr><td><a href="${FIG}02_temperature_normals.png"><code>02_temperature_normals.png</code></a></td><td>Les Hautes Terres sont plus fraîches que les côtes d'environ 6 à 10&nbsp;°C toute l'année</td></tr>
+<tr><td><a href="${FIG}02_temperature_normals.png"><code>02_temperature_normals.png</code></a></td><td>Les Hautes Terres sont plus fraîches que les côtes d'environ 5 à 9&nbsp;°C toute l'année</td></tr>
 <tr><td><a href="${FIG}03_warming_stripes.png"><code>03_warming_stripes.png</code></a></td><td>Dans chaque ville, les années fraîches dominaient les années 1980–90&nbsp;; les années chaudes dominent depuis 2010</td></tr>
 <tr><td><a href="${FIG}04_rainy_season_onset.png"><code>04_rainy_season_onset.png</code></a></td><td>Depuis 1981, la saison des pluies n'a commencé significativement plus tard dans aucune ville</td></tr>
 <tr><td><a href="${FIG}05_drought_spi.png"><code>05_drought_spi.png</code></a></td><td>Les saisons des pluies déficitaires sont devenues plus fréquentes sur les côtes nord, ouest et est</td></tr>
@@ -607,7 +611,7 @@ var I18N = {
 <tbody>
 <tr><th scope="row">Réchauffement de fond</th><td>Température moyenne annuelle, ERA5, recoupée avec NASA POWER</td><td>Les six villes se sont réchauffées de +0,18 à +0,26&nbsp;°C par décennie (environ +1&nbsp;°C depuis 1981). Les maximales diurnes augmentent plus vite que les minimales nocturnes</td></tr>
 <tr><th scope="row">1. Fiabilité des pluies</th><td>Début de la saison des pluies (premiers 20&nbsp;mm en 3 jours non suivis de 10 jours secs dans les 30 jours) et faux départs, CHIRPS</td><td>Aucun changement significatif dans aucune ville&nbsp;; les faux départs ont légèrement diminué. À Toliara, 21 saisons sur 44 n'atteignent jamais un début fiable — un problème permanent, et non nouveau</td></tr>
-<tr><th scope="row">2. Sécheresse</th><td>Indice de précipitations normalisé (SPI) saisonnier&nbsp;: SPI-6 (pluies de novembre à avril, loi gamma ajustée sur 1991–2020) et mois de sécheresse SPI-3, CHIRPS</td><td>Saisons des pluies plus sèches sur les côtes&nbsp;: saisons des pluies déficitaires 2 → 7 à Mahajanga, 1 → 6 à Toamasina (tendance significative), 3 → 6 à Antsiranana entre 1981–2002 et 2003–2024. Aucune tendance sur les Hautes Terres ni à Toliara</td></tr>
+<tr><th scope="row">2. Sécheresse</th><td>Indice de précipitations normalisé (SPI) saisonnier&nbsp;: SPI-6 (pluies de novembre à avril, loi gamma ajustée sur 1991–2020) et mois de sécheresse SPI-3, CHIRPS</td><td>Saisons des pluies moins arrosées sur les côtes&nbsp;: saisons des pluies déficitaires 2 → 7 à Mahajanga, 1 → 6 à Toamasina (tendance significative), 3 → 6 à Antsiranana entre 1981–2002 et 2003–2024. Aucune tendance sur les Hautes Terres ni à Toliara</td></tr>
 <tr><th scope="row">3. Chaleur dangereuse</th><td>Jours par an où l'indice de chaleur maximal journalier est ≥ 39,4&nbsp;°C (niveau «&nbsp;danger&nbsp;» de la NOAA), calculé heure par heure à partir d'ERA5</td><td>Plus que triplé entre 1981–1990 et 2016–2025&nbsp;: Mahajanga 19 → 64, Toliara 8 → 25, Toamasina 4 → 17 jours par an (tous p&nbsp;&lt;&nbsp;0,001). Aucun jour de ce type sur les Hautes Terres</td></tr>
 <tr><th scope="row">4. Régions</th><td>Comparaison des trois risques ville par ville</td><td>Les régions les plus exposées diffèrent selon le risque. <strong>Mahajanga</strong> est la seule ville où deux risques augmentent ensemble (chaleur et sécheresse). Les Hautes Terres se réchauffent aussi vite que les côtes, mais l'altitude les protège de la chaleur dangereuse</td></tr>
 </tbody>`,

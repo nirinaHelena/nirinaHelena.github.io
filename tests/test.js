@@ -53,7 +53,7 @@ async function scrollThrough(page) {
   console.log("\n== 1. Screenshots, console, layout ==");
   const combos = [];
   for (const p of Object.keys(PAGES)) for (const v of Object.keys(VIEWPORTS)) {
-    combos.push([p, v, "fr", "light"], [p, v, "en", "light"], [p, v, "fr", "dark"]);
+    for (const lang of ["fr", "en"]) for (const theme of ["light", "dark"]) combos.push([p, v, lang, theme]);
   }
   for (const [p, v, lang, theme] of combos) {
     const ctx = await browser.newContext({ viewport: VIEWPORTS[v], reducedMotion: "reduce" });
@@ -330,6 +330,131 @@ async function scrollThrough(page) {
     await c.close();
     const unused = enKeys.filter((k) => !used.has(k));
     check(unused.length === 0, "every i18n key is used in a page", `unused=[${unused}]`);
+  }
+
+  // ---------- 8. Review fixes: report content, wording, 375 px, figure links, photo, header line ----------
+  console.log("\n== 8. Review fixes ==");
+  {
+    const ctx0 = await browser.newContext();
+    // a. No Python warning, traceback or local path in the report.
+    const reportText = await (await ctx0.request.get(BASE + "/projects/heather/report.html")).text();
+    const banned = ["RuntimeWarning", "Traceback", "/home/"].map((w) => `${w}=${reportText.split(w).length - 1}`);
+    check(banned.every((b) => b.endsWith("=0")), "report.html has no RuntimeWarning, Traceback or /home/", banned.join(" "));
+    const stderrBlocks = reportText.split('data-mime-type="application/vnd.jupyter.stderr"').length - 1;
+    check(stderrBlocks === 0, "report.html has no stderr output block", `${stderrBlocks}`);
+
+    // b. French wording on the heather page.
+    const cfr = await browser.newContext({ viewport: VIEWPORTS.desktop });
+    await cfr.addInitScript(() => { localStorage.setItem("lang", "fr"); });
+    const pfr = await cfr.newPage(); await pfr.goto(BASE + PAGES.heather);
+    const frText = await pfr.evaluate(() => {
+      document.querySelectorAll("details").forEach((d) => { d.open = true; });
+      const attrs = Array.from(document.querySelectorAll("[alt], [aria-label], meta[content]")).map((e) => [e.getAttribute("alt"), e.getAttribute("aria-label"), e.getAttribute("content")].join(" "));
+      return document.title + "\n" + document.body.innerText + "\n" + attrs.join("\n");
+    });
+    const seches = frText.match(/.{0,40}sèches.{0,20}/g) || [];
+    check(seches.length === 0, 'heather page (FR): no occurrence of "sèches"', `${seches.length} ${seches.join(" | ")}`);
+    check(/saisons des pluies déficitaires/.test(frText), 'heather page (FR): uses "saisons des pluies déficitaires"', `${(frText.match(/déficitaires?/g) || []).length} occurrences`);
+    await cfr.close();
+
+    // c. No horizontal page scroll at 375 px; tables scroll inside their own container.
+    for (const p of Object.keys(PAGES)) for (const lang of ["en", "fr"]) for (const theme of ["light", "dark"]) {
+      const c = await browser.newContext({ viewport: { width: 375, height: 812 }, reducedMotion: "reduce" });
+      await c.addInitScript(([l, t]) => { localStorage.setItem("lang", l); localStorage.setItem("theme", t); }, [lang, theme]);
+      const pg = await c.newPage(); await pg.goto(BASE + PAGES[p], { waitUntil: "load" });
+      const r = await pg.evaluate(() => {
+        document.querySelectorAll("details").forEach((d) => { d.open = true; });
+        const tables = Array.from(document.querySelectorAll("table"));
+        const wrapped = tables.filter((t) => { const w = t.parentElement; return w.classList.contains("table-wrap") && getComputedStyle(w).overflowX === "auto"; });
+        const scrolling = tables.filter((t) => t.parentElement.scrollWidth > t.parentElement.clientWidth);
+        const squeezed = tables.filter((t) => t.getBoundingClientRect().width < 400);
+        return { sw: document.documentElement.scrollWidth, iw: window.innerWidth, bodySw: document.body.scrollWidth, tables: tables.length, wrapped: wrapped.length, scrolling: scrolling.length, squeezed: squeezed.length };
+      });
+      check(r.sw <= r.iw && r.bodySw <= r.iw && r.wrapped === r.tables, `375 px ${p} [${lang}, ${theme}]: no horizontal page scroll`,
+        `scrollWidth=${r.sw} innerWidth=${r.iw} tables=${r.tables} inScrollContainer=${r.wrapped} scrollingInside=${r.scrolling} narrowerThan400px=${r.squeezed}`);
+      await c.close();
+    }
+
+    // d. Every figure of the heather page is a link to an existing PNG.
+    for (const lang of ["en", "fr"]) {
+      const c = await browser.newContext({ viewport: VIEWPORTS.mobile });
+      await c.addInitScript((l) => { localStorage.setItem("lang", l); }, lang);
+      const pg = await c.newPage(); await pg.goto(BASE + PAGES.heather);
+      const figs = await pg.evaluate(() => Array.from(document.querySelectorAll("figure")).map((f) => {
+        const img = f.querySelector("img"); const a = img && img.closest("a");
+        const cap = a && document.getElementById(a.getAttribute("aria-describedby") || "");
+        return { href: a ? a.href : null, same: a ? a.getAttribute("href") === img.getAttribute("src") : false, target: a && a.target, rel: a && a.rel, label: a && a.getAttribute("aria-label"), alt: img && img.alt, cursor: a && getComputedStyle(a).cursor, described: !!(cap && cap.textContent.trim()) };
+      }));
+      const hint = await pg.locator('[data-i18n="h.fig.hint"]').textContent();
+      const expected = lang === "fr" ? "Ouvrir la figure en taille réelle" : "Open full-size figure";
+      let ok = figs.length >= 3; const st = [];
+      for (const f of figs) {
+        const res = f.href ? await c.request.get(f.href) : null;
+        const good = !!res && res.status() === 200 && /image\/png/.test(res.headers()["content-type"] || "") && /\.png$/.test(f.href) && f.same && f.target === "_blank" && /noopener/.test(f.rel) && f.label === expected && f.cursor === "zoom-in" && f.described && !!f.alt;
+        ok = ok && good; st.push(`${f.href ? f.href.split("/").pop() : "NO LINK"}:${res ? res.status() : "-"}`);
+      }
+      check(ok && hint.trim().length > 0, `heather [${lang}]: every figure is a link to an existing PNG`, `${figs.length} figures ${st.join(" ")} aria-label="${figs[0] && figs[0].label}" hint="${hint.trim()}"`);
+      await c.close();
+    }
+
+    // e. Home page: photo above the name on small screens, beside it on desktop.
+    for (const [w, h] of [[375, 812], [390, 844], [639, 900], [1280, 800]]) {
+      const c = await browser.newContext({ viewport: { width: w, height: h } });
+      const pg = await c.newPage(); await pg.goto(BASE + "/");
+      const r = await pg.evaluate(() => {
+        const ph = document.querySelector(".hero-photo").getBoundingClientRect(), h1 = document.querySelector("h1").getBoundingClientRect(), k = document.querySelector(".kicker").getBoundingClientRect();
+        return { photoTop: Math.round(ph.top), photoBottom: Math.round(ph.bottom), photoW: Math.round(ph.width), photoLeft: Math.round(ph.left), kickerTop: Math.round(k.top), h1Top: Math.round(h1.top), h1Right: Math.round(h1.right), h1Bottom: Math.round(h1.bottom) };
+      });
+      const ok = w < 768 ? (r.photoBottom <= r.kickerTop && r.photoBottom <= r.h1Top && r.photoW === 120)
+                         : (r.photoW === 208 && r.photoLeft > 640 && r.photoTop < r.h1Bottom && r.photoBottom > r.h1Top);
+      check(ok, `home ${w}px: photo ${w < 768 ? "above the greeting and the name, 120 px" : "beside the text, unchanged (208 px)"}`, JSON.stringify(r));
+      await c.close();
+    }
+
+    // f. Heather page: a single line under the header (computed borders), at the top and after jumping to each section.
+    for (const [vname, vp] of Object.entries(VIEWPORTS)) for (const theme of ["light", "dark"]) {
+      const c = await browser.newContext({ viewport: vp, reducedMotion: "reduce" });
+      await c.addInitScript((t) => { localStorage.setItem("lang", "fr"); localStorage.setItem("theme", t); }, theme);
+      const pg = await c.newPage(); await pg.goto(BASE + PAGES.heather, { waitUntil: "load" });
+      const measure = () => pg.evaluate(() => {
+        const px = (v) => parseFloat(v) || 0;
+        const header = document.querySelector(".site-header"); const hs = getComputedStyle(header);
+        const inner = Array.from(header.querySelectorAll("*")).filter((e) => !e.closest("button") && e.tagName !== "BUTTON");
+        const innerLines = inner.filter((e) => { const s = getComputedStyle(e); return px(s.borderTopWidth) + px(s.borderBottomWidth) > 0 || s.boxShadow !== "none"; }).map((e) => e.tagName + "." + e.className);
+        const hb = header.getBoundingClientRect().bottom;
+        const sticky = hs.position === "sticky";
+        // Horizontal lines drawn by other elements just under the header.
+        const near = [];
+        document.querySelectorAll("main, main *").forEach((e) => {
+          const s = getComputedStyle(e), r = e.getBoundingClientRect();
+          if (r.width < window.innerWidth * 0.5) return;
+          if (px(s.borderTopWidth) > 0 && r.top >= hb - 0.5 && r.top <= hb + 24) near.push(`${e.tagName}#${e.id} top +${(r.top - hb).toFixed(1)}px`);
+          if (px(s.borderBottomWidth) > 0 && r.bottom >= hb - 0.5 && r.bottom <= hb + 24) near.push(`${e.tagName}#${e.id} bottom +${(r.bottom - hb).toFixed(1)}px`);
+        });
+        return { top: px(hs.borderTopWidth), bottom: px(hs.borderBottomWidth), shadow: hs.boxShadow, innerLines, near, sticky, hb: Math.round(hb), y: Math.round(window.scrollY) };
+      });
+      const m0 = await measure();
+      let ok = m0.top === 0 && m0.bottom === 1 && m0.shadow === "none" && m0.innerLines.length === 0 && m0.near.length === 0;
+      const notes = [`top-of-page: headerBorder=${m0.top}/${m0.bottom}px innerLines=[${m0.innerLines}] near=[${m0.near}] sticky=${m0.sticky} headerBottom=${m0.hb}px`];
+      for (const id of ["summary", "question", "data", "method", "figures", "results", "act", "limits", "links"]) {
+        await pg.evaluate((i) => { location.hash = "#" + i; }, id); await pg.waitForTimeout(60);
+        const m = await measure();
+        // When the header is not sticky it scrolls away: nothing can double it.
+        const bad = m.sticky && m.near.length > 0;
+        if (bad) { ok = false; notes.push(`#${id}: ${m.near.join(", ")}`); }
+      }
+      check(ok, `heather ${vname} ${theme}: one single line under the header`, notes.join(" ; "));
+      if (vname === "desktop" && theme === "dark") {
+        await pg.evaluate(() => { location.hash = "#summary"; window.scrollTo(0, 0); }); await pg.waitForTimeout(80);
+        await pg.screenshot({ path: path.join(SHOTS, "crop-heather-header-dark.png"), clip: { x: 0, y: 0, width: vp.width, height: 260 } });
+        await pg.evaluate(() => { location.hash = "#question"; }); await pg.waitForTimeout(80);
+        await pg.screenshot({ path: path.join(SHOTS, "crop-heather-header-dark-after-scroll.png"), clip: { x: 0, y: 0, width: vp.width, height: 260 } });
+        await pg.evaluate(() => { location.hash = "#act"; }); await pg.waitForTimeout(80);
+        await pg.screenshot({ path: path.join(SHOTS, "crop-heather-recommandations-fr-dark.png") });
+      }
+      await c.close();
+    }
+    await ctx0.close();
   }
 
   await browser.close();
