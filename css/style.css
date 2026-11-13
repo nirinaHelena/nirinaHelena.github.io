@@ -595,9 +595,16 @@ summary {
     gap: 0.1rem 1.25rem;
   }
 
+  /* Project pages have more links: the menu gets its own row under the name. */
+  .header-two-rows .site-nav {
+    flex-basis: 100%;
+    order: 4;
+    margin-left: 0;
+  }
+
   /* Keep anchored titles clear of the sticky header. */
   [id] {
-    scroll-margin-top: 5.5rem;
+    scroll-margin-top: 7.5rem;
   }
 
   .section {

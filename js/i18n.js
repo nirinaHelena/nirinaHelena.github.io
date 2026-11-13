@@ -109,6 +109,7 @@ var I18N = {
     "h.nav.method": "Method",
     "h.nav.figures": "Figures",
     "h.nav.results": "Results",
+    "h.nav.act": "Recommendations",
     "h.nav.limits": "Limitations",
     "h.nav.links": "Links",
 
@@ -291,6 +292,23 @@ var I18N = {
 <tr><th scope="row">4. Regions</th><td>Comparison of the three risks city by city</td><td>The most exposed regions differ by risk. <strong>Mahajanga</strong> is the only city where two risks rise together (heat and drought). The Highlands warm as fast as the coasts but are protected from dangerous heat by altitude</td></tr>
 </tbody>`,
 
+    "h.act.title": "Recommendations",
+    "h.act.intro": "These recommendations follow directly from the measured climate hazards. They do not account for costs or local conditions, and should be discussed with the people concerned.",
+    "h.act.table": `
+<thead><tr><th scope="col">Stakeholder</th><th scope="col">Recommendation</th><th scope="col">Based on</th></tr></thead>
+<tbody>
+<tr><th scope="row">Public-health authorities and municipalities</th><td>Set up heat-health warnings on the coasts, starting with Mahajanga, then Toliara and Toamasina: alerts based on the daily heat index, shaded rest and drinking water, outdoor work and school activities moved away from the hottest hours</td><td>Dangerous-heat days rose from 19 to 64 per year in Mahajanga, 8 to 25 in Toliara and 4 to 17 in Toamasina</td></tr>
+<tr><th scope="row">Environmental and food-security organisations</th><td>Prioritise drought preparedness on the western, eastern and northern coasts (water storage, drought-tolerant crop varieties), and monitor the seasonal SPI each April to detect a dry season early</td><td>Dry rainy seasons rose from 2 to 7 in Mahajanga, 1 to 6 in Toamasina and 3 to 6 in Antsiranana</td></tr>
+<tr><th scope="row">Farmers and agricultural extension services</th><td>Keep current sowing calendars: the start of the rains has not shifted. In the South, only sow after a reliable onset (about 20 mm over 3 days) and favour short-cycle, drought-tolerant crops</td><td>No significant change in onset dates; in Toliara, half of the seasons never reach a reliable onset and 4.4 false starts occur per season</td></tr>
+<tr><th scope="row">Citizens and local communities</th><td>Share these results in a simple form (warming stripes, city-level figures) so that people can see how their region's climate has changed in their lifetime</td><td>All six cities warmed by about 1 °C since 1981</td></tr>
+</tbody>`,
+    "h.act.next_title": "Next steps",
+    "h.act.next": `
+<li><strong>Validate with ground stations:</strong> compare these results with Météo Madagascar station records.</li>
+<li><strong>Cover the far south:</strong> add Androy and Anosy, where the 2020–21 drought hit hardest but which no city in this study represents.</li>
+<li><strong>Link climate to health:</strong> combine these data with malaria records (planned follow-up project).</li>
+<li><strong>Keep it up to date:</strong> the download scripts can be re-run each year to extend the series.</li>`,
+
     "h.limits.title": "Limitations",
     "h.limits.list": `
 <li><strong>Gridded estimates, not station records:</strong> values describe grid cells of 5 to 25 km, not a precise point in a city.</li>
@@ -411,6 +429,7 @@ var I18N = {
     "h.nav.method": "Méthode",
     "h.nav.figures": "Graphiques",
     "h.nav.results": "Résultats",
+    "h.nav.act": "Recommandations",
     "h.nav.limits": "Limites",
     "h.nav.links": "Liens",
 
@@ -592,6 +611,23 @@ var I18N = {
 <tr><th scope="row">3. Chaleur dangereuse</th><td>Jours par an où l'indice de chaleur maximal journalier est ≥ 39,4&nbsp;°C (niveau «&nbsp;danger&nbsp;» de la NOAA), calculé heure par heure à partir d'ERA5</td><td>Plus que triplé entre 1981–1990 et 2016–2025&nbsp;: Mahajanga 19 → 64, Toliara 8 → 25, Toamasina 4 → 17 jours par an (tous p&nbsp;&lt;&nbsp;0,001). Aucun jour de ce type sur les Hautes Terres</td></tr>
 <tr><th scope="row">4. Régions</th><td>Comparaison des trois risques ville par ville</td><td>Les régions les plus exposées diffèrent selon le risque. <strong>Mahajanga</strong> est la seule ville où deux risques augmentent ensemble (chaleur et sécheresse). Les Hautes Terres se réchauffent aussi vite que les côtes, mais l'altitude les protège de la chaleur dangereuse</td></tr>
 </tbody>`,
+
+    "h.act.title": "Recommandations",
+    "h.act.intro": "Ces recommandations découlent directement des aléas climatiques mesurés. Elles ne tiennent pas compte des coûts ni des conditions locales, et doivent être discutées avec les personnes concernées.",
+    "h.act.table": `
+<thead><tr><th scope="col">Partie prenante</th><th scope="col">Recommandation</th><th scope="col">Fondée sur</th></tr></thead>
+<tbody>
+<tr><th scope="row">Autorités de santé publique et communes</th><td>Mettre en place des alertes chaleur-santé sur les côtes, en commençant par Mahajanga, puis Toliara et Toamasina&nbsp;: alertes fondées sur l'indice de chaleur journalier, lieux de repos ombragés et eau potable, travail en extérieur et activités scolaires déplacés hors des heures les plus chaudes</td><td>Les jours de chaleur dangereuse sont passés de 19 à 64 par an à Mahajanga, de 8 à 25 à Toliara et de 4 à 17 à Toamasina</td></tr>
+<tr><th scope="row">Organisations environnementales et de sécurité alimentaire</th><td>Donner la priorité à la préparation à la sécheresse sur les côtes ouest, est et nord (stockage de l'eau, variétés tolérantes à la sécheresse), et suivre le SPI saisonnier chaque mois d'avril pour détecter tôt une saison sèche</td><td>Les saisons des pluies sèches sont passées de 2 à 7 à Mahajanga, de 1 à 6 à Toamasina et de 3 à 6 à Antsiranana</td></tr>
+<tr><th scope="row">Agriculteurs et services de vulgarisation agricole</th><td>Conserver les calendriers de semis actuels&nbsp;: le début des pluies ne s'est pas décalé. Dans le Sud, ne semer qu'après un début fiable (environ 20&nbsp;mm en 3 jours) et privilégier des cultures à cycle court, tolérantes à la sécheresse</td><td>Aucun changement significatif des dates de début&nbsp;; à Toliara, la moitié des saisons n'atteignent jamais un début fiable et l'on compte 4,4 faux départs par saison</td></tr>
+<tr><th scope="row">Citoyens et communautés locales</th><td>Diffuser ces résultats sous une forme simple (bandes de réchauffement, chiffres par ville) pour que chacun puisse voir comment le climat de sa région a changé au cours de sa vie</td><td>Les six villes se sont réchauffées d'environ 1&nbsp;°C depuis 1981</td></tr>
+</tbody>`,
+    "h.act.next_title": "Prochaines étapes",
+    "h.act.next": `
+<li><strong>Valider avec des stations au sol&nbsp;:</strong> comparer ces résultats avec les relevés des stations de Météo Madagascar.</li>
+<li><strong>Couvrir l'extrême sud&nbsp;:</strong> ajouter l'Androy et l'Anosy, où la sécheresse de 2020–21 a frappé le plus durement, mais qu'aucune ville de cette étude ne représente.</li>
+<li><strong>Relier climat et santé&nbsp;:</strong> combiner ces données avec des données sur le paludisme (projet de suivi prévu).</li>
+<li><strong>Maintenir à jour&nbsp;:</strong> les scripts de téléchargement peuvent être relancés chaque année pour prolonger les séries.</li>`,
 
     "h.limits.title": "Limites",
     "h.limits.list": `
