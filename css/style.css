@@ -655,8 +655,9 @@ summary {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  /* Three cards: one column until three fit side by side (never 2 + 1). */
   .cards-3 {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
   }
 
   .card-featured {
@@ -669,5 +670,11 @@ summary {
 
   .card-featured .figure-card {
     margin-bottom: 0;
+  }
+}
+
+@media (min-width: 960px) {
+  .cards-3 {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

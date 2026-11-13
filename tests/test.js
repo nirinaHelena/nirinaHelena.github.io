@@ -76,27 +76,50 @@ async function scrollThrough(page) {
     const name = `${p}-${v}-${lang}-${theme}.png`;
     await page.screenshot({ path: path.join(SHOTS, name), fullPage: true });
     if (p === "index") {
-      // Home, About and Experience are written: the only placeholder left there is the BirdIA tag.
+      // Every section is written: the only placeholders left are the BirdIA tag and the LinkedIn line.
       const todo = await page.evaluate(() => {
-        const count = (sel) => (document.querySelector(sel).textContent.match(/TODO/g) || []).length;
-        const out = { home: count("#home"), about: count("#about"), experience: count("#experience"), where: [], cards: document.querySelectorAll("#experience .card").length };
-        document.querySelectorAll("#home [data-i18n], #about [data-i18n], #experience [data-i18n]").forEach((el) => {
+        const out = { counts: {}, where: [], cards: document.querySelectorAll("#experience .card").length };
+        ["home", "about", "experience", "projects", "skills", "education", "contact"].forEach((id) => {
+          out.counts[id] = (document.getElementById(id).textContent.match(/TODO/g) || []).length;
+        });
+        document.querySelectorAll("main [data-i18n]").forEach((el) => {
           if (/TODO/.test(el.textContent)) out.where.push(el.getAttribute("data-i18n"));
         });
         out.meta = ['meta[name="description"]', 'meta[property="og:description"]'].map((q) => document.querySelector(q).getAttribute("content"));
-        const a = document.querySelector('#about [data-i18n="about.p2"] a');
-        out.heather = a && a.getAttribute("href");
+        const href = (q) => { const a = document.querySelector(q); return a && a.getAttribute("href"); };
+        out.heather = href('#about [data-i18n="about.p2"] a');
+        out.heatherEdu = href('#education [data-i18n="edu.gda.desc"] a');
+        const mail = document.querySelector('#contact a[href^="mailto:"]');
+        out.mail = mail && [mail.getAttribute("href"), mail.textContent];
+        // Cards of a same row have the same height.
+        out.rows = ["#experience", "#skills", "#education"].map((q) => {
+          const rows = {};
+          document.querySelectorAll(q + " .card").forEach((c) => { const r = c.getBoundingClientRect(); (rows[Math.round(r.top)] = rows[Math.round(r.top)] || []).push(Math.round(r.height)); });
+          const list = Object.values(rows);
+          return { sel: q, cols: Math.max(...list.map((r) => r.length)), cards: list.reduce((n, r) => n + r.length, 0), even: list.every((r) => r.every((h) => h === r[0])) };
+        });
         return out;
       });
-      check(todo.home === 0 && todo.about === 0 && todo.experience === 1 && todo.where.join() === "exp.birdia.stack" && todo.cards === 4 && todo.heather === "projects/heather/index.html",
-        `index ${v} ${lang} ${theme}: no "TODO" in #home, #about and #experience except the BirdIA tag`,
-        `home=${todo.home} about=${todo.about} experience=${todo.experience} at [${todo.where}], Heather link=${todo.heather}`);
+      const c = todo.counts;
+      check(c.home + c.about + c.projects + c.skills + c.education === 0 && c.experience === 1 && c.contact === 1 && todo.where.join() === "exp.birdia.stack,contact.linkedin" && todo.cards === 4,
+        `index ${v} ${lang} ${theme}: no "TODO" in the sections except the BirdIA tag and the LinkedIn line`,
+        `experience=${c.experience} contact=${c.contact} others=0 at [${todo.where}]`);
+      check(todo.heather === "projects/heather/index.html" && todo.heatherEdu === "projects/heather/index.html" &&
+        todo.mail && todo.mail[0] === "mailto:helenarandrianaly@gmail.com" && todo.mail[1].endsWith("helenarandrianaly@gmail.com"),
+        `index ${v} ${lang} ${theme}: Heather links (About, Education) and mailto link`, `About=${todo.heather} Education=${todo.heatherEdu} mail=${todo.mail && todo.mail[0]}`);
+      const wantCols = v === "desktop" ? [2, 2, 3] : [1, 1, 1];
+      check(todo.rows.every((r, i) => r.even && r.cols === wantCols[i]) && todo.rows[1].cards === 4 && todo.rows[2].cards === 3,
+        `index ${v} ${lang} ${theme}: card grids (experience, skills, education) have ${wantCols.join("/")} columns and even rows`,
+        todo.rows.map((r) => `${r.sel}: ${r.cards} cards, ${r.cols} col, even=${r.even}`).join("; "));
       check(todo.meta.every((m) => m && m.length > 50 && !/TODO/.test(m)) && todo.meta[0] === todo.meta[1],
         `index ${v} ${lang} ${theme}: meta description and og:description are written`, `${todo.meta[0].length} chars`);
       if (v === "desktop" && lang === "fr" && theme === "light") {
         // Clip of the full-page capture, so the sticky header does not cover the section title.
         const box = await page.locator("#experience").boundingBox();
         await page.screenshot({ path: path.join(SHOTS, "crop-index-experience-desktop-fr-light.png"), fullPage: true, clip: box });
+        const sk = await page.locator("#skills").boundingBox(), ed = await page.locator("#education").boundingBox();
+        await page.screenshot({ path: path.join(SHOTS, "crop-index-skills-education-desktop-fr-light.png"), fullPage: true, clip: { x: sk.x, y: sk.y, width: sk.width, height: ed.y + ed.height - sk.y } });
+        await page.screenshot({ path: path.join(SHOTS, "crop-index-contact-desktop-fr-light.png"), fullPage: true, clip: await page.locator("#contact").boundingBox() });
       }
     }
     const expectedBg = theme === "dark" ? "rgb(18, 16, 20)" : "rgb(255, 255, 255)";

@@ -40,7 +40,7 @@ This comparison loads the original report once, which fetches its scripts from c
 
 ## What is checked
 
-1. Both pages in French and English, light and dark, at 1280 px and 390 px: no console message, no broken image, alt text everywhere, no horizontal scroll; on the home page, Home, About and Experience contain no `TODO` except the BirdIA tag, and the meta description is written.
+1. Both pages in French and English, light and dark, at 1280 px and 390 px: no console message, no broken image, alt text everywhere, no horizontal scroll; on the home page, no `TODO` is left in the sections except the BirdIA tag and the LinkedIn line, the meta description is written, the Heather and e-mail links are right, and the cards of a same row have the same height.
 2. Every internal link and anchor.
 3. Language: browser default, switch, kept after reload and across pages.
 4. Theme: system default, switch, `aria-pressed` and label, kept after reload.
