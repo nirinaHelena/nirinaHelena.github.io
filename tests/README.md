@@ -40,14 +40,14 @@ This comparison loads the original report once, which fetches its scripts from c
 
 ## What is checked
 
-1. Both pages in French and English, light and dark, at 1280 px and 390 px: no console message, no broken image, alt text everywhere, no horizontal scroll; on the home page, no `TODO` is left in the sections except the BirdIA tag and the LinkedIn line, the meta description is written, the Heather and e-mail links are right, and the cards of a same row have the same height.
-2. Every internal link and anchor.
+1. Both pages in French and English, light and dark, at 1280 px and 390 px: no console message, no broken image, alt text everywhere, no horizontal scroll; no visible `TODO` (text, alt texts, labels, meta contents); on the home page, the placeholders are out of the page (photo, BirdIA tags, LinkedIn line, CV links), the meta description is written, the Heather and e-mail links are right, and the cards of a same row have the same height.
+2. Every internal link and anchor, on the two pages and the report: each local `href` and `src` answers and is a file of the repository. While the site is under construction: the three pages have `<meta name="robots" content="noindex, nofollow">` and `robots.txt` disallows everything.
 3. Language: browser default, switch, kept after reload and across pages.
 4. Theme: system default, switch, `aria-pressed` and label, kept after reload.
 5. Pages readable without JavaScript; visible keyboard focus.
 6. `projects/heather/report.html`: renders fully, no external request.
 7. The English text in the HTML files is identical to `en` in `js/i18n.js`, and `en` and `fr` have the same keys.
-8. Review fixes: no Python warning or local path in the report, drought wording in French and English, no horizontal page scroll at 375 px, figures link to their PNG, photo above the name on small screens, a single line under the header.
+8. Review fixes: no Python warning or local path in the report, drought wording in French and English, no horizontal page scroll at 375 px, figures link to their PNG, home page without the photo (text on one column, aligned with the header), a single line under the header.
 
 ## When check 7 fails
 

@@ -19,6 +19,14 @@ const HEATHER = process.env.HEATHER_DIR || "";
 const EXE = process.env.CHROME_EXE || undefined;
 const I18N_FILE = path.join(REPO, "js", "i18n.js");
 const PAGES = { index: "/", heather: "/projects/heather/" };
+const REPORT = "/projects/heather/report.html";
+// Text a visitor can read or hear: page text (collapsed blocks opened), title, alt texts, labels, meta contents.
+const visibleText = () => {
+  document.querySelectorAll("details").forEach((d) => { d.open = true; });
+  const attrs = Array.from(document.querySelectorAll("[alt], [aria-label], [title], meta[content]")).map((e) => [e.getAttribute("alt"), e.getAttribute("aria-label"), e.getAttribute("title"), e.getAttribute("content")].join(" "));
+  return document.title + "\n" + document.body.innerText + "\n" + attrs.join("\n");
+};
+const todoIn = (text) => text.match(/.{0,30}TODO.{0,30}/g) || [];
 const VIEWPORTS = { desktop: { width: 1280, height: 800 }, mobile: { width: 390, height: 844 } };
 
 let failures = 0;
@@ -75,10 +83,19 @@ async function scrollThrough(page) {
     }));
     const name = `${p}-${v}-${lang}-${theme}.png`;
     await page.screenshot({ path: path.join(SHOTS, name), fullPage: true });
+    const todos = todoIn(await page.evaluate(visibleText));
+    check(todos.length === 0, `${p} ${v} ${lang} ${theme}: no visible "TODO"`, `${todos.length} ${todos.join(" | ")}`);
     if (p === "index") {
-      // Every section is written: the only placeholders left are the BirdIA tag and the LinkedIn line.
+      // Construction mode: the placeholders (photo, BirdIA tags, LinkedIn line, CV links) are out of the page.
       const todo = await page.evaluate(() => {
         const out = { counts: {}, where: [], cards: document.querySelectorAll("#experience .card").length };
+        out.hidden = {
+          photo: document.querySelectorAll(".hero img, .hero-photo").length,
+          birdiaTags: Array.from(document.querySelectorAll("#experience .card")).filter((c) => c.querySelector("h3").textContent === "BirdIA").map((c) => c.querySelectorAll(".tags").length).join(),
+          contactItems: document.querySelectorAll("#contact .contact-list li").length,
+          cv: document.querySelectorAll('a[href$=".pdf"]').length,
+          linkedin: /linkedin/i.test(document.getElementById("contact").textContent),
+        };
         ["home", "about", "experience", "projects", "skills", "education", "contact"].forEach((id) => {
           out.counts[id] = (document.getElementById(id).textContent.match(/TODO/g) || []).length;
         });
@@ -101,9 +118,11 @@ async function scrollThrough(page) {
         return out;
       });
       const c = todo.counts;
-      check(c.home + c.about + c.projects + c.skills + c.education === 0 && c.experience === 1 && c.contact === 1 && todo.where.join() === "exp.birdia.stack,contact.linkedin" && todo.cards === 4,
-        `index ${v} ${lang} ${theme}: no "TODO" in the sections except the BirdIA tag and the LinkedIn line`,
-        `experience=${c.experience} contact=${c.contact} others=0 at [${todo.where}]`);
+      const total = Object.values(c).reduce((a, b) => a + b, 0);
+      check(total === 0 && todo.where.length === 0 && todo.cards === 4, `index ${v} ${lang} ${theme}: no "TODO" in any section, 4 experience cards`, `total=${total} at [${todo.where}] cards=${todo.cards}`);
+      const hd = todo.hidden;
+      check(hd.photo === 0 && hd.birdiaTags === "0" && hd.contactItems === 2 && hd.cv === 0 && !hd.linkedin,
+        `index ${v} ${lang} ${theme}: placeholders hidden (photo, BirdIA tags, LinkedIn line, CV links)`, JSON.stringify(hd));
       check(todo.heather === "projects/heather/index.html" && todo.heatherEdu === "projects/heather/index.html" &&
         todo.mail && todo.mail[0] === "mailto:helenarandrianaly@gmail.com" && todo.mail[1].endsWith("helenarandrianaly@gmail.com"),
         `index ${v} ${lang} ${theme}: Heather links (About, Education) and mailto link`, `About=${todo.heather} Education=${todo.heatherEdu} mail=${todo.mail && todo.mail[0]}`);
@@ -141,17 +160,24 @@ async function scrollThrough(page) {
     if (!ids[url]) { const pg = await ctx.newPage(); await pg.goto(url); ids[url] = await pg.evaluate(() => Array.from(document.querySelectorAll("[id]")).map((e) => e.id)); await pg.close(); }
     return ids[url];
   };
-  for (const lang of ["en", "fr"]) for (const p of Object.keys(PAGES)) {
-    await page.goto(BASE + PAGES[p]);
+  // A local href or src must be a file of the repository (a folder counts through its index.html).
+  const onDisk = (pathname) => {
+    let f = path.join(REPO, decodeURIComponent(pathname));
+    if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, "index.html");
+    return fs.existsSync(f) && fs.statSync(f).isFile();
+  };
+  const LINK_PAGES = { ...PAGES, report: REPORT };
+  for (const lang of ["en", "fr"]) for (const p of Object.keys(LINK_PAGES)) {
+    await page.goto(BASE + LINK_PAGES[p]);
     await page.evaluate((l) => { localStorage.setItem("lang", l); }, lang);
     await page.reload();
-    const refs = await page.evaluate(() => Array.from(document.querySelectorAll("a[href], img[src], link[href], script[src]")).map((e) => e.href || e.src));
+    const refs = await page.evaluate(() => Array.from(document.querySelectorAll("[href], [src]")).map((e) => e.href || e.src).filter((r) => typeof r === "string" && /^https?:/.test(r)));
     let ok = 0; const bad = [];
     for (const ref of [...new Set(refs)]) {
       const u = new URL(ref);
       if (u.origin !== new URL(BASE).origin) { external.add(ref); continue; }
       const res = await ctx.request.get(u.origin + u.pathname);
-      let good = res.status() === 200;
+      let good = res.status() === 200 && onDisk(u.pathname);
       if (good && u.hash) good = (await idsOf(u.origin + u.pathname)).includes(u.hash.slice(1));
       good ? ok++ : bad.push(`${ref} -> ${res.status()}${u.hash ? " (anchor checked)" : ""}`);
     }
@@ -170,8 +196,25 @@ async function scrollThrough(page) {
   }
   console.log("      external links (listed, not requested):");
   [...external].sort().forEach((e) => console.log("        " + e));
-  for (const f of ["/assets/cv/CV_FR.pdf", "/assets/cv/CV_EN.pdf", "/assets/img/favicon.svg"]) {
+  for (const f of ["/assets/img/favicon.svg"]) {
     const r = await ctx.request.get(BASE + f); check(r.status() === 200, `GET ${f}`, `status=${r.status()} type=${r.headers()["content-type"]}`);
+  }
+
+  // Construction mode: the three pages ask not to be indexed, and robots.txt closes the site.
+  for (const [p, url] of Object.entries(LINK_PAGES)) {
+    await page.goto(BASE + url);
+    const robots = await page.evaluate(() => Array.from(document.querySelectorAll('head meta[name="robots"]')).map((m) => m.content));
+    check(robots.length === 1 && /noindex/.test(robots[0]) && /nofollow/.test(robots[0]), `${p}: <meta name="robots" content="noindex, nofollow">`, JSON.stringify(robots));
+  }
+  {
+    const r = await ctx.request.get(BASE + "/robots.txt");
+    const lines = r.status() === 200 ? (await r.text()).split("\n").map((l) => l.trim()).filter(Boolean) : [];
+    check(fs.existsSync(path.join(REPO, "robots.txt")) && lines.join("|") === "User-agent: *|Disallow: /", "robots.txt exists and disallows everything", `status=${r.status()} "${lines.join(" | ")}"`);
+  }
+  {
+    await page.goto(BASE + REPORT);
+    const todos = todoIn(await page.evaluate(visibleText));
+    check(todos.length === 0, 'report: no visible "TODO"', `${todos.length} ${todos.join(" | ")}`);
   }
   await ctx.close();
 
@@ -449,17 +492,20 @@ async function scrollThrough(page) {
       await c.close();
     }
 
-    // e. Home page: photo above the name on small screens, beside it on desktop.
+    // e. Home page without the photo (construction mode): the text block keeps its place and its margins.
     for (const [w, h] of [[375, 812], [390, 844], [639, 900], [1280, 800]]) {
       const c = await browser.newContext({ viewport: { width: w, height: h } });
       const pg = await c.newPage(); await pg.goto(BASE + "/");
       const r = await pg.evaluate(() => {
-        const ph = document.querySelector(".hero-photo").getBoundingClientRect(), h1 = document.querySelector("h1").getBoundingClientRect(), k = document.querySelector(".kicker").getBoundingClientRect();
-        return { photoTop: Math.round(ph.top), photoBottom: Math.round(ph.bottom), photoW: Math.round(ph.width), photoLeft: Math.round(ph.left), kickerTop: Math.round(k.top), h1Top: Math.round(h1.top), h1Right: Math.round(h1.right), h1Bottom: Math.round(h1.bottom) };
+        const box = (q) => { const b = document.querySelector(q).getBoundingClientRect(); return { left: Math.round(b.left), right: Math.round(b.right), top: Math.round(b.top), bottom: Math.round(b.bottom) }; };
+        const cont = box(".hero-inner"), brand = box(".brand"), h1 = box("h1"), lead = box(".lead"), actions = box(".actions");
+        const cs = getComputedStyle(document.querySelector(".hero-inner"));
+        return { photos: document.querySelectorAll(".hero img").length, children: document.querySelector(".hero-inner").children.length, columns: cs.gridTemplateColumns.split(" ").length,
+          brandLeft: brand.left, h1Left: h1.left, leadLeft: lead.left, leadRight: lead.right, contRight: cont.right, actionsLeft: actions.left, vw: window.innerWidth, overflow: document.documentElement.scrollWidth - window.innerWidth };
       });
-      const ok = w < 768 ? (r.photoBottom <= r.kickerTop && r.photoBottom <= r.h1Top && r.photoW === 120)
-                         : (r.photoW === 208 && r.photoLeft > 640 && r.photoTop < r.h1Bottom && r.photoBottom > r.h1Top);
-      check(ok, `home ${w}px: photo ${w < 768 ? "above the greeting and the name, 120 px" : "beside the text, unchanged (208 px)"}`, JSON.stringify(r));
+      // Text aligned with the brand in the header, inside the container, on a single column.
+      const ok = r.photos === 0 && r.children === 1 && r.columns === 1 && r.h1Left === r.brandLeft && r.leadLeft === r.brandLeft && r.actionsLeft === r.brandLeft && r.leadRight <= r.contRight && r.overflow <= 0;
+      check(ok, `home ${w}px: no photo, hero text on one column aligned with the header`, JSON.stringify(r));
       await c.close();
     }
 

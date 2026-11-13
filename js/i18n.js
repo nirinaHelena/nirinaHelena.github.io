@@ -42,7 +42,6 @@ var I18N = {
     "home.tagline": "I build reliable web services, and I use data to understand the issues that matter in Madagascar, starting with its climate.",
     "home.cta_projects": "View projects",
     "home.cta_contact": "Contact",
-    "home.photo_alt": "TODO: portrait of Nirina Helena (placeholder image)",
 
     "about.title": "About",
     "about.p1": "I am a backend developer based in Antananarivo. I hold a bachelor's degree in computer science from the Haute École d'Informatique (HEI), Software Ecosystem track, and spent a year as a work-study student at Numer Madagascar, where I automated invoicing and payment management. Since March 2026, I have been on a permanent contract at Aureon Madagascar, building and maintaining the backend of web platforms used by German-speaking clients in Europe, from health coaching to customer support.",
@@ -64,7 +63,6 @@ var I18N = {
     "exp.birdia.role": "Backend developer (work-study)",
     "exp.birdia.period": "2024 – Oct 2025",
     "exp.birdia.desc": "I automated invoice generation and payment management for the platform.",
-    "exp.birdia.stack": "<li>TODO: technologies</li>",
 
     "projects.title": "Projects",
     "projects.heather.title": "Heather — Madagascar Climate Analysis (1981–2025)",
@@ -100,9 +98,6 @@ var I18N = {
     "contact.intro": "Have a question about my work or a project in mind? Get in touch.",
     "contact.email": "Email: helenarandrianaly@gmail.com",
     "contact.github": "GitHub: nirinaHelena",
-    "contact.linkedin": "TODO: LinkedIn profile link",
-    "contact.cv_fr": "CV in French (PDF)",
-    "contact.cv_en": "CV in English (PDF)",
 
     /* ---------- projects/heather/index.html ---------- */
     "meta.heather.title": "Heather — Madagascar Climate Analysis (1981–2025) | Nirina Helena",
@@ -369,7 +364,6 @@ var I18N = {
     "home.tagline": "Je développe des services web fiables, et j'utilise les données pour comprendre les enjeux qui comptent à Madagascar, à commencer par son climat.",
     "home.cta_projects": "Voir les projets",
     "home.cta_contact": "Contact",
-    "home.photo_alt": "TODO: portrait de Nirina Helena (image provisoire)",
 
     "about.title": "À propos",
     "about.p1": "Je suis développeuse backend à Antananarivo. Diplômée d'une licence en informatique de la Haute École d'Informatique (HEI), parcours Écosystème Logiciel, j'ai aussi passé un an en alternance chez Numer Madagascar, où j'ai automatisé la facturation et la gestion des paiements. Depuis mars 2026, je suis en CDI chez Aureon Madagascar, où je développe et maintiens le backend de plateformes web utilisées par des clients germanophones en Europe, du coaching santé au support client.",
@@ -391,7 +385,6 @@ var I18N = {
     "exp.birdia.role": "Développeuse backend (alternance)",
     "exp.birdia.period": "2024 – oct. 2025",
     "exp.birdia.desc": "J'ai automatisé la génération des factures et la gestion des paiements de la plateforme.",
-    "exp.birdia.stack": "<li>TODO: technologies</li>",
 
     "projects.title": "Projets",
     "projects.heather.title": "Heather — Analyse climatique de Madagascar (1981–2025)",
@@ -427,9 +420,6 @@ var I18N = {
     "contact.intro": "Une question sur mon travail ou un projet à me proposer&nbsp;? Écrivez-moi.",
     "contact.email": "E-mail&nbsp;: helenarandrianaly@gmail.com",
     "contact.github": "GitHub : nirinaHelena",
-    "contact.linkedin": "TODO: lien du profil LinkedIn",
-    "contact.cv_fr": "CV en français (PDF)",
-    "contact.cv_en": "CV en anglais (PDF)",
 
     /* ---------- projects/heather/index.html ---------- */
     "meta.heather.title": "Heather — Analyse climatique de Madagascar (1981–2025) | Nirina Helena",
