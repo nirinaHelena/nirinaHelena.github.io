@@ -45,7 +45,7 @@ var I18N = {
     "home.photo_alt": "Portrait of Nirina Helena",
 
     "about.title": "About",
-    "about.p1": "I am a backend developer based in Antananarivo. I hold a bachelor's degree in computer science from the Haute École d'Informatique (HEI), Software Ecosystem track, and spent a year as a work-study student at Numer Madagascar, where I automated invoicing and payment management. Since March 2026, I have been on a permanent contract at Aureon Madagascar, building and maintaining the backend of web platforms used by German-speaking clients in Europe, from health coaching to customer support.",
+    "about.p1": "I am a backend developer based in Antananarivo. I hold a bachelor's degree in applied mathematics and computer science from the Haute École d'Informatique (HEI), Software Ecosystem track, with a final year as a work-study student at Numer Madagascar, where I automated invoicing and payment management. Since March 2026, I have been on a permanent contract at Aureon Madagascar, building and maintaining the backend of web platforms used by German-speaking clients in Europe, from health coaching to customer support.",
     "about.p2": "Working with production data every day made me want to go further: to understand what data says, not just store it. I earned the Google Data Analytics Professional Certificate and built <a href=\"projects/heather/index.html\">Heather</a>, a complete analysis of 45 years of climate data in Madagascar. I now want to deepen my skills in data science and artificial intelligence, and use them on problems that matter to my country.",
 
     "experience.title": "Experience",
@@ -368,7 +368,7 @@ var I18N = {
     "home.photo_alt": "Portrait de Nirina Helena",
 
     "about.title": "À propos",
-    "about.p1": "Je suis développeuse backend à Antananarivo. Diplômée d'une licence en informatique de la Haute École d'Informatique (HEI), parcours Écosystème Logiciel, j'ai aussi passé un an en alternance chez Numer Madagascar, où j'ai automatisé la facturation et la gestion des paiements. Depuis mars 2026, je suis en CDI chez Aureon Madagascar, où je développe et maintiens le backend de plateformes web utilisées par des clients germanophones en Europe, du coaching santé au support client.",
+    "about.p1": "Je suis développeuse backend à Antananarivo. Diplômée d'une licence en mathématiques appliquées et informatique de la Haute École d'Informatique (HEI), parcours Écosystème Logiciel, j'ai effectué ma dernière année en alternance chez Numer Madagascar, où j'ai automatisé la facturation et la gestion des paiements. Depuis mars 2026, je suis en CDI chez Aureon Madagascar, où je développe et maintiens le backend de plateformes web utilisées par des clients germanophones en Europe, du coaching santé au support client.",
     "about.p2": "Travailler chaque jour avec des données de production m'a donné envie d'aller plus loin&nbsp;: comprendre ce que les données racontent, et pas seulement les stocker. J'ai obtenu le Google Data Analytics Professional Certificate et réalisé <a href=\"projects/heather/index.html\">Heather</a>, une analyse complète de 45 ans de données climatiques à Madagascar. Je souhaite maintenant approfondir la data science et l'intelligence artificielle, pour mettre ces compétences au service de problèmes qui comptent pour mon pays.",
 
     "experience.title": "Expérience",
