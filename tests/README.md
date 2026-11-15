@@ -40,7 +40,7 @@ This comparison loads the original report once, which fetches its scripts from c
 
 ## What is checked
 
-1. Both pages in French and English, light and dark, at 1280 px and 390 px: no console message, no broken image, alt text everywhere, no horizontal scroll; no visible `TODO` (text, alt texts, labels, meta contents); on the home page, the portrait is there (its file exists, its alt text is "Portrait…" in both languages), the placeholders are out of the page (BirdIA tags, LinkedIn line, CV links), the meta description is written, the Heather and e-mail links are right, and the cards of a same row have the same height.
+1. Both pages in French and English, light and dark, at 1280 px and 390 px: no console message, no broken image, alt text everywhere, no horizontal scroll; no visible `TODO` (text, alt texts, labels, meta contents); on the home page, the portrait is there (its file exists, its alt text is "Portrait…" in both languages), the BirdIA tags and the certificate link (new tab, `rel="noopener"`) are there, the CV links are out of the page and LinkedIn is not mentioned anywhere, the meta description is written, the Heather and e-mail links are right, and the cards of a same row have the same height.
 2. Every internal link and anchor, on the two pages and the report: each local `href` and `src` answers and is a file of the repository; every image of `assets/img/` (the `heather/` folder apart) is referenced. While the site is under construction: the three pages have `<meta name="robots" content="noindex, nofollow">` and `robots.txt` disallows everything.
 3. Language: browser default, switch, kept after reload and across pages.
 4. Theme: system default, switch, `aria-pressed` and label, kept after reload.

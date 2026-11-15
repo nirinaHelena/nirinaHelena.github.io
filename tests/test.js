@@ -86,15 +86,16 @@ async function scrollThrough(page) {
     const todos = todoIn(await page.evaluate(visibleText));
     check(todos.length === 0, `${p} ${v} ${lang} ${theme}: no visible "TODO"`, `${todos.length} ${todos.join(" | ")}`);
     if (p === "index") {
-      // Construction mode: the placeholders (BirdIA tags, LinkedIn line, CV links) are out of the page. The photo is there.
+      // Construction mode: the CV links are out of the page. The photo, the BirdIA tags and the certificate link are there; LinkedIn is nowhere.
       const todo = await page.evaluate(() => {
         const out = { counts: {}, where: [], cards: document.querySelectorAll("#experience .card").length };
         out.photo = Array.from(document.querySelectorAll(".hero img, .hero-photo")).map((i) => ({ src: i.getAttribute("src"), alt: i.alt, natural: i.naturalWidth, width: Math.round(i.getBoundingClientRect().width) }));
         out.hidden = {
-          birdiaTags: Array.from(document.querySelectorAll("#experience .card")).filter((c) => c.querySelector("h3").textContent === "BirdIA").map((c) => c.querySelectorAll(".tags").length).join(),
+          birdiaTags: Array.from(document.querySelectorAll("#experience .card")).filter((c) => c.querySelector("h3").textContent === "BirdIA").map((c) => Array.from(c.querySelectorAll(".tags li")).map((li) => li.textContent).join("|")).join(),
           contactItems: document.querySelectorAll("#contact .contact-list li").length,
           cv: document.querySelectorAll('a[href$=".pdf"]').length,
-          linkedin: /linkedin/i.test(document.getElementById("contact").textContent),
+          linkedin: /linkedin/i.test(document.documentElement.outerHTML),
+          verify: Array.from(document.querySelectorAll('#education a[data-i18n="edu.gda.verify"]')).map((a) => ({ href: a.getAttribute("href"), target: a.target, rel: a.rel, text: a.textContent, card: a.closest(".card").querySelector("h3").textContent })),
         };
         ["home", "about", "experience", "projects", "skills", "education", "contact"].forEach((id) => {
           out.counts[id] = (document.getElementById(id).textContent.match(/TODO/g) || []).length;
@@ -121,8 +122,12 @@ async function scrollThrough(page) {
       const total = Object.values(c).reduce((a, b) => a + b, 0);
       check(total === 0 && todo.where.length === 0 && todo.cards === 4, `index ${v} ${lang} ${theme}: no "TODO" in any section, 4 experience cards`, `total=${total} at [${todo.where}] cards=${todo.cards}`);
       const hd = todo.hidden;
-      check(hd.birdiaTags === "0" && hd.contactItems === 2 && hd.cv === 0 && !hd.linkedin,
-        `index ${v} ${lang} ${theme}: placeholders hidden (BirdIA tags, LinkedIn line, CV links)`, JSON.stringify(hd));
+      const vf = hd.verify[0];
+      check(hd.birdiaTags === "Java|POJA|PostgreSQL|AWS" && hd.contactItems === 2 && hd.cv === 0 && !hd.linkedin,
+        `index ${v} ${lang} ${theme}: BirdIA tags present, CV links hidden, no mention of LinkedIn`, JSON.stringify({ ...hd, verify: undefined }));
+      check(hd.verify.length === 1 && vf.href === "https://coursera.org/verify/professional-cert/O1Y5N0W0IZXU" && vf.target === "_blank" && /\bnoopener\b/.test(vf.rel) &&
+        vf.text === (lang === "fr" ? "Vérifier le certificat" : "Verify the certificate") && /^Google Data Analytics/.test(vf.card),
+        `index ${v} ${lang} ${theme}: certificate link (Coursera, new tab, rel="noopener")`, JSON.stringify(hd.verify));
       // Home photo: one image, its file is in the repository and loads, its alt text is written.
       const ph = todo.photo[0];
       const wantAlt = lang === "fr" ? "Portrait de Nirina Helena" : "Portrait of Nirina Helena";
@@ -145,6 +150,12 @@ async function scrollThrough(page) {
         const sk = await page.locator("#skills").boundingBox(), ed = await page.locator("#education").boundingBox();
         await page.screenshot({ path: path.join(SHOTS, "crop-index-skills-education-desktop-fr-light.png"), fullPage: true, clip: { x: sk.x, y: sk.y, width: sk.width, height: ed.y + ed.height - sk.y } });
         await page.screenshot({ path: path.join(SHOTS, "crop-index-education-desktop-fr-light.png"), fullPage: true, clip: ed });
+      }
+      if (v === "desktop" && lang === "en" && theme === "light") {
+        const ex = await page.locator("#experience").boundingBox(), ed = await page.locator("#education").boundingBox();
+        await page.screenshot({ path: path.join(SHOTS, "crop-index-experience-education-desktop-en-light.png"), fullPage: true, clip: { x: ex.x, y: ex.y, width: ex.width, height: ed.y + ed.height - ex.y } });
+      }
+      if (v === "desktop" && lang === "fr" && theme === "light") {
         await page.screenshot({ path: path.join(SHOTS, "crop-index-contact-desktop-fr-light.png"), fullPage: true, clip: await page.locator("#contact").boundingBox() });
       }
     }
