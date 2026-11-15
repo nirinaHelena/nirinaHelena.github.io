@@ -42,7 +42,7 @@ var I18N = {
     "home.tagline": "I build reliable web services, and I use data to understand the issues that matter in Madagascar, starting with its climate.",
     "home.cta_projects": "View projects",
     "home.cta_contact": "Contact",
-    "home.photo_alt": "Nirina Helena's initials",
+    "home.photo_alt": "Portrait of Nirina Helena",
 
     "about.title": "About",
     "about.p1": "I am a backend developer based in Antananarivo. I hold a bachelor's degree in computer science from the Haute École d'Informatique (HEI), Software Ecosystem track, and spent a year as a work-study student at Numer Madagascar, where I automated invoicing and payment management. Since March 2026, I have been on a permanent contract at Aureon Madagascar, building and maintaining the backend of web platforms used by German-speaking clients in Europe, from health coaching to customer support.",
@@ -85,15 +85,15 @@ var I18N = {
     "skills.g4.items": "<li>Malagasy (native)</li><li>French (DELF B2)</li><li>English (professional use)</li>",
 
     "education.title": "Education",
-    "edu.hei.title": "Bachelor's degree in computer science, Software Ecosystem track — HEI",
+    "edu.hei.title": "Bachelor's degree in Applied Mathematics and Computer Science, Software Ecosystem track — HEI",
     "edu.hei.period": "2022 – 2025",
-    "edu.hei.desc": "Software development, databases and web applications. Defended in October 2025, degree awarded in June 2026.",
+    "edu.hei.desc": "Databases, backend API development, web and mobile applications, information-system security and business intelligence. Final year as a work-study student. Defended in October 2025, degree awarded in June 2026.",
     "edu.gda.title": "Google Data Analytics Professional Certificate",
     "edu.gda.period": "Nov 2026",
     "edu.gda.desc": "A complete data-analysis process: ask, prepare, process, analyse, share and act, using spreadsheets and SQL. The <a href=\"projects/heather/index.html\">Heather</a> project applies this process.",
     "edu.delf.title": "DELF B2",
-    "edu.delf.period": "2022",
-    "edu.delf.desc": "Official French-language diploma, B2 level, awarded by the French Ministry of Education.",
+    "edu.delf.period": "2023",
+    "edu.delf.desc": "Official French-language diploma, B2 level, awarded by the French Ministry of Education. Final score: 84.5/100.",
 
     "contact.title": "Contact",
     "contact.intro": "Have a question about my work or a project in mind? Get in touch.",
@@ -344,7 +344,7 @@ var I18N = {
   fr: {
     /* ---------- commun ---------- */
     "skip": "Aller au contenu",
-    "lang.switch": "FR / EN : passer en anglais",
+    "lang.switch": "FR / EN : passer en anglais",
     "theme.to_light": "Passer au thème clair",
     "theme.to_dark": "Passer au thème sombre",
     "nav.label": "Navigation principale",
@@ -365,7 +365,7 @@ var I18N = {
     "home.tagline": "Je développe des services web fiables, et j'utilise les données pour comprendre les enjeux qui comptent à Madagascar, à commencer par son climat.",
     "home.cta_projects": "Voir les projets",
     "home.cta_contact": "Contact",
-    "home.photo_alt": "Initiales de Nirina Helena",
+    "home.photo_alt": "Portrait de Nirina Helena",
 
     "about.title": "À propos",
     "about.p1": "Je suis développeuse backend à Antananarivo. Diplômée d'une licence en informatique de la Haute École d'Informatique (HEI), parcours Écosystème Logiciel, j'ai aussi passé un an en alternance chez Numer Madagascar, où j'ai automatisé la facturation et la gestion des paiements. Depuis mars 2026, je suis en CDI chez Aureon Madagascar, où je développe et maintiens le backend de plateformes web utilisées par des clients germanophones en Europe, du coaching santé au support client.",
@@ -390,7 +390,7 @@ var I18N = {
 
     "projects.title": "Projets",
     "projects.heather.title": "Heather — Analyse climatique de Madagascar (1981–2025)",
-    "projects.heather.desc": "Ce projet analyse 45 ans de données climatiques journalières (1981–2025) dans six villes de Madagascar pour mesurer l'évolution de trois risques climatiques qui touchent directement la population : des pluies peu fiables, la sécheresse et la chaleur dangereuse.",
+    "projects.heather.desc": "Ce projet analyse 45 ans de données climatiques journalières (1981–2025) dans six villes de Madagascar pour mesurer l'évolution de trois risques climatiques qui touchent directement la population&nbsp;: des pluies peu fiables, la sécheresse et la chaleur dangereuse.",
     "projects.heather.tags": "<li>Python</li><li>pandas</li><li>SciPy</li><li>Matplotlib</li><li>Jupyter</li>",
     "projects.heather.img_alt": "Bandes de réchauffement des six villes",
     "projects.heather.link_page": "Page du projet",
@@ -408,24 +408,24 @@ var I18N = {
     "skills.g4.items": "<li>Malgache (langue maternelle)</li><li>Français (DELF B2)</li><li>Anglais (usage professionnel)</li>",
 
     "education.title": "Formation",
-    "edu.hei.title": "Licence en informatique, parcours Écosystème Logiciel — HEI",
+    "edu.hei.title": "Licence Mathématiques appliquées et informatique, parcours Écosystème Logiciel — HEI",
     "edu.hei.period": "2022 – 2025",
-    "edu.hei.desc": "Développement logiciel, bases de données et applications web. Soutenance en octobre 2025, diplôme délivré en juin 2026.",
+    "edu.hei.desc": "Bases de données, développement d'API backend, applications web et mobiles, sécurité des systèmes d'information et business intelligence. Troisième année en alternance. Soutenance en octobre 2025, diplôme délivré en juin 2026.",
     "edu.gda.title": "Google Data Analytics Professional Certificate",
     "edu.gda.period": "nov. 2026",
     "edu.gda.desc": "Démarche complète d'analyse de données&nbsp;: poser la question, préparer, nettoyer, analyser, partager et recommander, avec tableurs et SQL. Le projet <a href=\"projects/heather/index.html\">Heather</a> applique cette démarche.",
     "edu.delf.title": "DELF B2",
-    "edu.delf.period": "2022",
-    "edu.delf.desc": "Diplôme officiel de langue française, niveau B2, délivré par le ministère français de l'Éducation nationale.",
+    "edu.delf.period": "2023",
+    "edu.delf.desc": "Diplôme officiel de langue française, niveau B2, délivré par le ministère français de l'Éducation nationale. Note finale&nbsp;: 84,5/100.",
 
     "contact.title": "Contact",
     "contact.intro": "Une question sur mon travail ou un projet à me proposer&nbsp;? Écrivez-moi.",
     "contact.email": "E-mail&nbsp;: helenarandrianaly@gmail.com",
-    "contact.github": "GitHub : nirinaHelena",
+    "contact.github": "GitHub&nbsp;: nirinaHelena",
 
     /* ---------- projects/heather/index.html ---------- */
     "meta.heather.title": "Heather — Analyse climatique de Madagascar (1981–2025) | Nirina Helena",
-    "meta.heather.description": "45 ans de données climatiques journalières dans six villes de Madagascar : l'évolution des pluies peu fiables, de la sécheresse et de la chaleur dangereuse depuis 1981.",
+    "meta.heather.description": "45 ans de données climatiques journalières dans six villes de Madagascar : l'évolution des pluies peu fiables, de la sécheresse et de la chaleur dangereuse depuis 1981.",
     "h.nav.portfolio": "← Portfolio",
     "h.nav.summary": "Résumé",
     "h.nav.question": "Question",
@@ -443,7 +443,7 @@ var I18N = {
     "h.cta.repo": "Dépôt GitHub",
 
     "h.summary.title": "Résumé",
-    "h.summary.intro": "Ce projet analyse 45 ans de données climatiques journalières (1981–2025) dans six villes de Madagascar pour mesurer l'évolution de trois risques climatiques qui touchent directement la population : des pluies peu fiables, la sécheresse et la chaleur dangereuse.",
+    "h.summary.intro": "Ce projet analyse 45 ans de données climatiques journalières (1981–2025) dans six villes de Madagascar pour mesurer l'évolution de trois risques climatiques qui touchent directement la population&nbsp;: des pluies peu fiables, la sécheresse et la chaleur dangereuse.",
     "h.summary.list": `
 <li><strong>Les six villes se sont réchauffées d'environ 1&nbsp;°C depuis 1981</strong> (+0,18 à +0,26&nbsp;°C par décennie), un résultat confirmé par deux jeux de données indépendants.</li>
 <li><strong>La chaleur dangereuse est le risque qui augmente le plus vite&nbsp;:</strong> les jours dépassant le niveau «&nbsp;danger&nbsp;» de l'indice de chaleur de la NOAA ont plus que triplé sur trois côtes, pour atteindre environ deux mois par an à Mahajanga.</li>
@@ -591,7 +591,7 @@ var I18N = {
     "h.fig.03.cap": "Dans chaque ville, les années fraîches dominaient les années 1980–90&nbsp;; les années chaudes dominent depuis 2010.",
     "h.fig.06.alt": "Jours de chaleur dangereuse sur les côtes",
     "h.fig.06.cap": "Les jours de chaleur dangereuse ont plus que triplé à Mahajanga, Toliara et Toamasina depuis les années 1980.",
-    "h.fig.05.alt": "Indice de sécheresse saisonnier : indice de précipitations normalisé (SPI-6)",
+    "h.fig.05.alt": "Indice de sécheresse saisonnier : indice de précipitations normalisé (SPI-6)",
     "h.fig.05.cap": "Les saisons des pluies déficitaires sont devenues plus fréquentes sur les côtes nord, ouest et est.",
     "h.fig.04.alt": "Date de début de la saison des pluies dans chaque ville depuis 1981",
     "h.fig.04.cap": "Depuis 1981, la saison des pluies n'a commencé significativement plus tard dans aucune ville.",

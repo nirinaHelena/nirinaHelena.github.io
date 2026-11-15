@@ -125,7 +125,7 @@ async function scrollThrough(page) {
         `index ${v} ${lang} ${theme}: placeholders hidden (BirdIA tags, LinkedIn line, CV links)`, JSON.stringify(hd));
       // Home photo: one image, its file is in the repository and loads, its alt text is written.
       const ph = todo.photo[0];
-      const wantAlt = lang === "fr" ? "Initiales de Nirina Helena" : "Nirina Helena's initials";
+      const wantAlt = lang === "fr" ? "Portrait de Nirina Helena" : "Portrait of Nirina Helena";
       check(todo.photo.length === 1 && !!ph.src && fs.existsSync(path.join(REPO, ph.src)) && ph.natural > 0 && ph.width > 0 &&
         ph.alt.trim().length > 0 && !/TODO/i.test(ph.alt) && ph.alt === wantAlt,
         `index ${v} ${lang} ${theme}: home photo present, file exists, alt text written`, JSON.stringify(todo.photo));
@@ -144,6 +144,7 @@ async function scrollThrough(page) {
         await page.screenshot({ path: path.join(SHOTS, "crop-index-experience-desktop-fr-light.png"), fullPage: true, clip: box });
         const sk = await page.locator("#skills").boundingBox(), ed = await page.locator("#education").boundingBox();
         await page.screenshot({ path: path.join(SHOTS, "crop-index-skills-education-desktop-fr-light.png"), fullPage: true, clip: { x: sk.x, y: sk.y, width: sk.width, height: ed.y + ed.height - sk.y } });
+        await page.screenshot({ path: path.join(SHOTS, "crop-index-education-desktop-fr-light.png"), fullPage: true, clip: ed });
         await page.screenshot({ path: path.join(SHOTS, "crop-index-contact-desktop-fr-light.png"), fullPage: true, clip: await page.locator("#contact").boundingBox() });
       }
     }
@@ -204,6 +205,15 @@ async function scrollThrough(page) {
   [...external].sort().forEach((e) => console.log("        " + e));
   for (const f of ["/assets/img/favicon.svg"]) {
     const r = await ctx.request.get(BASE + f); check(r.status() === 200, `GET ${f}`, `status=${r.status()} type=${r.headers()["content-type"]}`);
+  }
+
+  // Every image of assets/img/ (the heather/ folder apart) is used by a page, the style sheet or the script.
+  {
+    const dir = path.join(REPO, "assets", "img");
+    const sources = ["index.html", "projects/heather/index.html", "css/style.css", "js/i18n.js"].map((f) => fs.readFileSync(path.join(REPO, f), "utf8")).join("\n");
+    const images = fs.readdirSync(dir).filter((f) => fs.statSync(path.join(dir, f)).isFile());
+    const unused = images.filter((f) => !sources.includes("assets/img/" + f));
+    check(images.length > 0 && unused.length === 0, "no unreferenced image in assets/img/", `${images.length} files, unreferenced=[${unused}]`);
   }
 
   // Construction mode: the three pages ask not to be indexed, and robots.txt closes the site.
