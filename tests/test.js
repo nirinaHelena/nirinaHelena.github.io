@@ -20,6 +20,12 @@ const EXE = process.env.CHROME_EXE || undefined;
 const I18N_FILE = path.join(REPO, "js", "i18n.js");
 const PAGES = { index: "/", heather: "/projects/heather/" };
 const REPORT = "/projects/heather/report.html";
+// Public address of the site: canonical links, og: tags, robots.txt and sitemap.xml are written with it.
+const SITE = "https://nirinahelena.github.io";
+const TAGLINE = {
+  en: "I build the backend of health-coaching platforms used in Europe. I also analysed 45 years of climate data: in Mahajanga, dangerous-heat days rose from 19 to 64 a year.",
+  fr: "Je développe le backend de plateformes de coaching santé utilisées en Europe. J'ai aussi analysé 45 ans de données climatiques : à Mahajanga, les jours de chaleur dangereuse sont passés de 19 à 64 par an.",
+};
 // Text a visitor can read or hear: page text (collapsed blocks opened), title, alt texts, labels, meta contents.
 const visibleText = () => {
   document.querySelectorAll("details").forEach((d) => { d.open = true; });
@@ -118,6 +124,9 @@ async function scrollThrough(page) {
         });
         return out;
       });
+      // Home tagline: the expected sentence in this language, inside the screen.
+      const tg = await page.evaluate(() => { const e = document.querySelector('[data-i18n="home.tagline"]'); const r = e.getBoundingClientRect(); return { text: e.textContent.replace(/\s+/g, " ").trim(), left: Math.round(r.left), right: Math.round(r.right), clipped: e.scrollWidth - e.clientWidth, vw: window.innerWidth }; });
+      check(tg.text === TAGLINE[lang] && tg.left >= 0 && tg.right <= tg.vw && tg.clipped <= 0, `index ${v} ${lang} ${theme}: home tagline, no overflow`, JSON.stringify(tg));
       const c = todo.counts;
       const total = Object.values(c).reduce((a, b) => a + b, 0);
       check(total === 0 && todo.where.length === 0 && todo.cards === 4, `index ${v} ${lang} ${theme}: no "TODO" in any section, 4 experience cards`, `total=${total} at [${todo.where}] cards=${todo.cards}`);
@@ -227,16 +236,57 @@ async function scrollThrough(page) {
     check(images.length > 0 && unused.length === 0, "no unreferenced image in assets/img/", `${images.length} files, unreferenced=[${unused}]`);
   }
 
-  // Construction mode: the three pages ask not to be indexed, and robots.txt closes the site.
+  // Launched: no page asks not to be indexed, each has its canonical address, robots.txt opens the site and names the sitemap.
   for (const [p, url] of Object.entries(LINK_PAGES)) {
     await page.goto(BASE + url);
-    const robots = await page.evaluate(() => Array.from(document.querySelectorAll('head meta[name="robots"]')).map((m) => m.content));
-    check(robots.length === 1 && /noindex/.test(robots[0]) && /nofollow/.test(robots[0]), `${p}: <meta name="robots" content="noindex, nofollow">`, JSON.stringify(robots));
+    const head = await page.evaluate(() => ({
+      robots: Array.from(document.querySelectorAll('meta[name="robots"]')).map((m) => m.content),
+      noindex: /noindex/i.test(document.documentElement.outerHTML),
+      canonical: Array.from(document.querySelectorAll('head link[rel="canonical"]')).map((l) => l.getAttribute("href")),
+    }));
+    check(head.robots.length === 0 && !head.noindex, `${p}: no noindex`, JSON.stringify(head.robots));
+    check(head.canonical.length === 1 && head.canonical[0] === SITE + url, `${p}: <link rel="canonical">`, JSON.stringify(head.canonical));
   }
   {
     const r = await ctx.request.get(BASE + "/robots.txt");
     const lines = r.status() === 200 ? (await r.text()).split("\n").map((l) => l.trim()).filter(Boolean) : [];
-    check(fs.existsSync(path.join(REPO, "robots.txt")) && lines.join("|") === "User-agent: *|Disallow: /", "robots.txt exists and disallows everything", `status=${r.status()} "${lines.join(" | ")}"`);
+    check(fs.existsSync(path.join(REPO, "robots.txt")) && lines.join("|") === `User-agent: *|Allow: /|Sitemap: ${SITE}/sitemap.xml` && !lines.some((l) => /^Disallow/i.test(l)),
+      "robots.txt allows indexing and names the sitemap", `status=${r.status()} "${lines.join(" | ")}"`);
+  }
+  {
+    // sitemap.xml: well-formed, standard namespace, exactly the three pages, each one a file of the repository that answers.
+    const r = await ctx.request.get(BASE + "/sitemap.xml");
+    const xml = r.status() === 200 ? await r.text() : "";
+    const map = await page.evaluate((text) => {
+      const doc = new DOMParser().parseFromString(text, "application/xml");
+      const root = doc.documentElement;
+      return {
+        error: doc.getElementsByTagName("parsererror").length,
+        root: root.localName, ns: root.namespaceURI,
+        urls: Array.from(root.children).map((u) => ({ tag: u.localName, loc: (u.getElementsByTagName("loc")[0] || {}).textContent, lastmod: (u.getElementsByTagName("lastmod")[0] || {}).textContent })),
+      };
+    }, xml);
+    const wellFormed = xml.startsWith("<?xml") && map.error === 0 && map.root === "urlset" && map.ns === "http://www.sitemaps.org/schemas/sitemap/0.9" &&
+      map.urls.every((u) => u.tag === "url" && /^\d{4}-\d{2}-\d{2}$/.test(u.lastmod || ""));
+    const locs = map.urls.map((u) => u.loc);
+    check(wellFormed && locs.join("|") === Object.values(LINK_PAGES).map((u) => SITE + u).join("|"), "sitemap.xml is valid and lists the 3 pages", `status=${r.status()} ${JSON.stringify(map.urls)}`);
+    const missing = [];
+    for (const loc of locs) {
+      const pathname = String(loc).startsWith(SITE + "/") ? String(loc).slice(SITE.length) : null;
+      const res = pathname && await ctx.request.get(BASE + pathname);
+      if (!res || res.status() !== 200 || !onDisk(pathname)) missing.push(loc);
+    }
+    check(locs.length === 3 && missing.length === 0, "sitemap.xml: every URL exists", `missing=[${missing}]`);
+  }
+  // Share preview: og:image is an absolute address of the site and its file exists.
+  for (const [p, want] of Object.entries({ index: "/assets/img/portrait-nh.jpg", heather: "/assets/img/heather/03_warming_stripes.png" })) {
+    await page.goto(BASE + PAGES[p]);
+    const m = await page.evaluate(() => { const g = (q) => Array.from(document.querySelectorAll(`meta[property="og:${q}"]`)).map((e) => e.content); return { image: g("image"), url: g("url"), type: g("type"), title: g("title") }; });
+    const res = await ctx.request.get(BASE + want);
+    check(m.image.length === 1 && m.image[0] === SITE + want && onDisk(want) && res.status() === 200 && /^image\//.test(res.headers()["content-type"] || ""),
+      `${p}: og:image points to an existing file`, `${m.image} -> ${res.status()}`);
+    check(m.url.join() === SITE + PAGES[p] && m.type.join() === (p === "index" ? "website" : "article") && m.title.length === 1 && m.title[0].length > 0,
+      `${p}: og:url, og:type and og:title`, JSON.stringify({ url: m.url, type: m.type, title: m.title }));
   }
   {
     await page.goto(BASE + REPORT);
